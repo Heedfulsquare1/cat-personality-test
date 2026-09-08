@@ -5,8 +5,8 @@ compatibility_date = "2026-09-08"
 # D1 数据库绑定（部署后替换 database_id）
 [[d1_databases]]
 binding = "DB"
-database_name = "cat-personality-codes-db"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+database_name = "cat-personality-codes"
+database_id = "f254fb38-5714-4782-82fb-991d41691094"
 
 # 允许跨域（你的 Pages 域名）
 [vars]

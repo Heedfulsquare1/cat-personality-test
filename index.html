@@ -571,7 +571,7 @@ const TYPES=[
 ];
 
 /* ==================== 5. 状态 ==================== */
-const CLOUD_URL=''; // 部署 Cloudflare Worker 后填入，例如 https://cat-personality-codes.xxx.workers.dev
+const CLOUD_URL='/api'; // 同域 Pages Function 兑换码后端（/api/validate）
 const APP_VER='v2'; // 数据版本号（清理旧数据用）
 let S={code:'',maxCats:2,fname:'',env:{},cats:[],ci:0,ans:[],cur:0,qs:[],done:[]};
 const $=id=>document.getElementById(id);
