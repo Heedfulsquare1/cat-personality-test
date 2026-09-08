@@ -571,9 +571,9 @@ const TYPES=[
 ];
 
 /* ==================== 5. 状态 ==================== */
-const CODES=['CAT2024','DEMO','CAT2025'];   // 演示用，正式请改后端校验
-const APP_VER='v2';                         // 数据版本号（清理旧数据用）
-let S={code:'',fname:'',env:{},cats:[],ci:0,ans:[],cur:0,qs:[],done:[]};
+const CLOUD_URL=''; // 部署 Cloudflare Worker 后填入，例如 https://cat-personality-codes.xxx.workers.dev
+const APP_VER='v2'; // 数据版本号（清理旧数据用）
+let S={code:'',maxCats:2,fname:'',env:{},cats:[],ci:0,ans:[],cur:0,qs:[],done:[]};
 const $=id=>document.getElementById(id);
 const lsKey=()=>'catp_'+S.code;
 function save(){try{localStorage.setItem(lsKey(),JSON.stringify({v:APP_VER,S,exp:EXP}))}catch(e){}}
@@ -644,16 +644,46 @@ function spawnSky(){
 
 /* ---------- ① 同意书 ---------- */
 $('ck').onchange=e=>$('btn-consent').disabled=!e.target.checked;
-function toInfo(){
-  const c=$('code').value.trim().toUpperCase();
-  if(!c){alert('请输入兑换码');return;}
-  if(!CODES.includes(c)){alert('兑换码无效，请检查后重试');return;}
-  S.code=c;
+function getDeviceId(){
+  let id=localStorage.getItem('cat_device_id');
+  if(!id){id='d_'+Math.random().toString(36).slice(2)+Date.now().toString(36); localStorage.setItem('cat_device_id',id);}
+  return id;
+}
+function enterInfo(c,maxCats){
+  S.code=c; S.maxCats=maxCats||2;
   const old=localStorage.getItem(lsKey());
   if(old){ try{const o=JSON.parse(old); if(o.v===APP_VER && o.S && o.S.cats && o.S.cats.length){S=o.S; EXP=o.exp||null;} }catch(e){} }
   if(!S.cats||!S.cats.length) S.cats=[{name:'',age:AGE_OPT[2],sex:SEX_OPT[0],breed:BREEDS[0]}];
   if(!S.env||!Object.keys(S.env).length) S.env={dog:0,cat:0,kid:0,out:0,pet:0};
   buildInfo(); go('info');
+}
+async function toInfo(){
+  const c=$('code').value.trim().toUpperCase();
+  if(!c){alert('请输入兑换码');return;}
+
+  // 未接入后端时，仍用演示码兜底
+  if(!CLOUD_URL){
+    if(!['CAT2024','DEMO','CAT2025'].includes(c)){alert('兑换码无效，请检查后重试');return;}
+    enterInfo(c,2); return;
+  }
+
+  const btn=$('btn-consent');
+  const oldText=btn.textContent;
+  btn.disabled=true; btn.textContent='校验中…';
+  try{
+    const res=await fetch(CLOUD_URL+'/validate',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({code:c,deviceId:getDeviceId()})
+    });
+    const data=await res.json();
+    if(!data.valid){alert(data.message||'兑换码无效');return;}
+    enterInfo(c,data.maxCats);
+  }catch(e){
+    alert('网络错误，请检查网络后重试'); console.error(e);
+  }finally{
+    btn.disabled=false; btn.textContent=oldText;
+  }
 }
 
 /* ---------- ② 信息页 ---------- */
@@ -678,7 +708,7 @@ function buildInfo(){
      '<div class="fld" style="margin-bottom:0"><label>品种（选好后上方会显示它的像素形象）</label><div class="breed-search"><input type="text" class="breed-search-inp" data-c="'+i+'" placeholder="搜索品种…（输入「折耳」「卷毛」「英短」试试）"><span class="breed-search-tip" data-tip="'+i+'">'+BREEDS.length+' / '+BREEDS.length+'</span><button type="button" class="breed-search-clr" data-clr="'+i+'" title="清除搜索">×</button></div><select data-c="'+i+'" data-f="breed">'+BREEDS.map(a=>'<option'+(a===c.breed?' selected':'')+'>'+a+'</option>').join('')+'</select></div></div>');
     syncPreview(i);
   });
-  $('btn-addcat').classList.toggle('hide',S.cats.length>=2);
+  $('btn-addcat').classList.toggle('hide',S.cats.length>=(S.maxCats||2));
   box.querySelectorAll('input,select').forEach(el=>{
     el.onchange=el.oninput=()=>{S.cats[+el.dataset.c][el.dataset.f]=el.value;syncPreview(+el.dataset.c);save();};
   });
@@ -717,7 +747,7 @@ function buildInfo(){
   });
 }
 $('fname').oninput=e=>{S.fname=e.target.value;save();};
-function addCat(){ if(S.cats.length>=2)return; S.cats.push({name:'',age:AGE_OPT[2],sex:SEX_OPT[0],breed:BREEDS[0]}); buildInfo(); save(); }
+function addCat(){ if(S.cats.length>=(S.maxCats||2))return; S.cats.push({name:'',age:AGE_OPT[2],sex:SEX_OPT[0],breed:BREEDS[0]}); buildInfo(); save(); }
 function delCat(i){ S.cats.splice(i,1); buildInfo(); save(); }
 
 /* ---------- ③ 答题 ---------- */

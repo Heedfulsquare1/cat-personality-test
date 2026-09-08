@@ -1,6 +1,7 @@
 # 忽略截图、系统文件、开发产物
 *.png.tmp
 screenshot-*.png
+generated-personalities/
 .DS_Store
 Thumbs.db
 node_modules/
