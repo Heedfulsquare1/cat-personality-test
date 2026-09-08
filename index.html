@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="lLumvzfS0XRAxGMN9qfWwj">
+<head data-page-node-id="dXrND3GDFLsM3y1JCz9LEi">
+<meta charset="UTF-8" data-page-node-id="Yjts8vfq4rruDp2plwHRyC">
+<meta name="viewport" content="width=device-width,initial-scale=1" data-page-node-id="WARxCmfpjiajrnhxLiFlu1">
+<title>小月说 · 猫咪行为性格测试</title>
+<style>
+@font-face{font-family:'Zpix';src:url('https://cdn.jsdelivr.net/gh/SolidZORO/zpix-pixel-font@master/dist/Zpix.woff2') format('woff2'),url('https://cdn.jsdelivr.net/gh/SolidZORO/zpix-pixel-font@master/dist/Zpix.ttf') format('truetype');font-display:swap}
+:root{
+--ink:#2b2118; --paper:#fff8e7; --cream:#fdf1d9; --sand:#f6e7cc;
+--orange:#ff9b45; --orange-d:#e2762a; --pink:#ff8fa8; --blue:#6fc3e8;
+--green:#86c86a; --yellow:#ffd35c; --gray:#a3907a;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+ font-family:'Zpix','Press Start 2P',-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+ color:#3b2f24;line-height:1.8;letter-spacing:.3px;
+ overflow-x:hidden;
+ background:
+  linear-gradient(180deg,rgba(253,244,228,.55),rgba(253,244,228,.68) 40%,rgba(253,244,228,.82)),
+  url('assets/bg/像素背景-温馨猫窝.png') center/cover no-repeat fixed;
+ background-color:#f6e7cc;
+}
+img{image-rendering:pixelated;-webkit-image-rendering:pixelated}
+
+/* ===== 悬浮像素元素背景 ===== */
+#sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.floaty{position:absolute;image-rendering:pixelated;pointer-events:none;
+ animation-name:floaty;animation-timing-function:ease-in-out;animation-iteration-count:infinite;
+ filter:drop-shadow(0 2px 0 rgba(43,33,24,.12))}
+@keyframes floaty{
+ 0%  {transform:translate(0,0) rotate(-6deg)}
+ 25% {transform:translate(7px,-13px) rotate(4deg)}
+ 50% {transform:translate(0,-24px) rotate(-3deg)}
+ 75% {transform:translate(-7px,-11px) rotate(6deg)}
+ 100%{transform:translate(0,0) rotate(-6deg)}
+}
+/* 另外两条漂浮轨迹，随机分配给不同元素，避免整片同步摆动 */
+@keyframes floaty2{
+ 0%  {transform:translate(0,0) rotate(5deg)}
+ 30% {transform:translate(-9px,-15px) rotate(-4deg)}
+ 55% {transform:translate(4px,-26px) rotate(7deg)}
+ 80% {transform:translate(9px,-9px) rotate(-5deg)}
+ 100%{transform:translate(0,0) rotate(5deg)}
+}
+@keyframes floaty3{
+ 0%  {transform:translate(0,0) rotate(2deg)}
+ 20% {transform:translate(6px,-18px) rotate(-7deg)}
+ 50% {transform:translate(-6px,-28px) rotate(3deg)}
+ 85% {transform:translate(-3px,-8px) rotate(8deg)}
+ 100%{transform:translate(0,0) rotate(2deg)}
+}
+
+.wrap{max-width:600px;margin:0 auto;padding:22px 16px 64px;position:relative;z-index:1}
+.card{background:var(--paper);border:3px solid var(--ink);box-shadow:6px 6px 0 rgba(43,33,24,.9);
+ padding:24px 20px;margin-bottom:18px}
+h1{font-size:23px;margin:0 0 8px;letter-spacing:1px;text-shadow:2px 2px 0 rgba(255,155,69,.25)}
+h2{font-size:17px;margin:0 0 6px;letter-spacing:.5px}
+h3{letter-spacing:.5px}
+.sub{color:var(--gray);font-size:12.5px;margin-bottom:16px}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--cream);border:2px solid var(--ink);
+ box-shadow:3px 3px 0 rgba(43,33,24,.85);color:var(--orange-d);font-size:12px;padding:4px 10px;margin-bottom:14px}
+.badge img{width:16px;height:16px}
+.btn{display:block;width:100%;padding:14px;border:3px solid var(--ink);font-size:15.5px;font-weight:700;letter-spacing:1px;
+ background:var(--orange);color:#fff;cursor:pointer;margin-top:14px;box-shadow:0 5px 0 #a8541a;transition:none;font-family:inherit}
+.btn:active{transform:translateY(5px);box-shadow:0 0 0 #a8541a}
+.btn.ghost{background:var(--paper);color:var(--orange-d);box-shadow:0 5px 0 rgba(43,33,24,.85)}
+.btn.ghost:active{transform:translateY(5px);box-shadow:0 0 0}
+.btn.final{background:linear-gradient(180deg,#ff7a3a 0%,#e2552a 100%);color:#fff8e7;padding:18px;font-size:18px;letter-spacing:2px;
+ border-width:4px;box-shadow:0 7px 0 #8c2a0a;margin-top:18px;position:relative}
+.btn.final::before{content:'最后一题';position:absolute;left:14px;top:-12px;background:#fff8e7;color:#e2552a;
+ border:3px solid var(--ink);box-shadow:3px 3px 0 rgba(0,0,0,.18);padding:2px 10px;font-size:11px;letter-spacing:1px}
+.btn.final:hover{filter:brightness(1.05)}
+.btn.final:active{transform:translateY(7px);box-shadow:0 0 0 #8c2a0a}
+.btn.small{padding:11px;font-size:14px;margin-top:10px}
+.btn:disabled{background:#e2d6c4;color:#fff;box-shadow:0 5px 0 #c9bba6;cursor:not-allowed}
+label.row{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;margin:16px 0;color:#5b4c3d}
+input[type=text],input[type=number],select{width:100%;padding:11px 12px;border:3px solid var(--ink);font-size:15px;
+ background:#fffdf6;color:#3b2f24;outline:none;font-family:inherit;border-radius:0}
+input:focus,select:focus{background:#fff6e6;box-shadow:inset 0 0 0 2px var(--yellow)}
+/* 品种搜索框 */
+.breed-search{position:relative;display:flex;align-items:center;margin-bottom:6px}
+.breed-search-inp{padding-right:62px!important}
+.breed-search-tip{position:absolute;right:32px;top:50%;transform:translateY(-50%);font-size:12px;color:#7d6b56;pointer-events:none;font-family:inherit;letter-spacing:.5px}
+.breed-search-clr{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:22px;height:22px;border:2px solid var(--ink);background:var(--paper);color:#3b2f24;font-size:14px;line-height:1;cursor:pointer;padding:0;font-family:inherit;box-shadow:2px 2px 0 rgba(43,33,24,.85)}
+.breed-search-clr:hover{background:var(--orange);color:#fff}
+.breed-search-clr:active{transform:translate(2px,2px) translateY(-50%);box-shadow:none}
+/* 搜索激活时高亮 select */
+.breed-search.is-active select{border-color:var(--orange);background:#fff0d6}
+.fld{margin-bottom:14px}
+.fld>label{display:block;font-size:12.5px;color:#7d6b56;margin-bottom:6px}
+.two{display:flex;gap:10px}.two>*{flex:1}
+.box{background:var(--cream);border:3px solid var(--ink);padding:14px 16px;font-size:13px;color:#5b4c3d;
+ max-height:250px;overflow-y:auto;margin:12px 0}
+.box b{color:#3b2f24}
+.hide{display:none!important}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg>div{padding:8px 13px;border:3px solid #d9c6ac;background:var(--paper);font-size:13.5px;cursor:pointer;color:#7d6b56}
+.seg>div.on{border-color:var(--ink);background:var(--orange);color:#fff;font-weight:700;box-shadow:3px 3px 0 rgba(43,33,24,.85)}
+.catcard{border:3px dashed #d9c6ac;background:#fffdf7;padding:16px;margin-bottom:14px}
+.catcard h3{margin:0 0 12px;font-size:14.5px;color:var(--orange-d)}
+.bar{height:14px;background:#fffdf6;border:3px solid var(--ink);overflow:hidden;margin:14px 0 18px;padding:2px}
+.bar>i{display:block;height:100%;width:0;transition:width .25s steps(10);
+ background:repeating-linear-gradient(90deg,var(--orange) 0 8px,#ffb771 8px 11px)}
+.qmeta{color:var(--gray);font-size:12px;letter-spacing:1px;display:flex;justify-content:space-between;align-items:center}
+.qmeta .who{display:flex;align-items:center;gap:6px;color:var(--orange-d)}
+.mini-cat{width:26px;height:26px;border:2px solid var(--ink);background:var(--cream)}
+.qtext{font-size:17px;font-weight:700;margin:10px 0 16px;min-height:56px}
+.qhint{font-size:12.5px;color:var(--gray);margin:-10px 0 16px}
+.opt{padding:12px 14px;border:3px solid #d9c6ac;background:var(--paper);margin-bottom:9px;cursor:pointer;
+ font-size:14.5px;display:flex;align-items:center;gap:12px}
+.opt.on{border-color:var(--ink);background:#fff0d6;font-weight:700;box-shadow:3px 3px 0 rgba(43,33,24,.85)}
+.opt .dot{width:16px;height:16px;border:3px solid #c9bba6;background:var(--paper);flex:none}
+.opt.on .dot{border-color:var(--ink);background:var(--orange);box-shadow:inset 0 0 0 3px #fff0d6}
+.nextbox{margin-top:18px;display:flex;gap:12px}
+.nextbox .btn{margin-top:0}
+/* 猫咪像素形象 */
+.catprev{display:flex;flex-direction:column;align-items:center;gap:6px;margin:4px 0 14px}
+.catprev-box{border:3px solid var(--ink);background:var(--cream);box-shadow:4px 4px 0 rgba(43,33,24,.85);
+ padding:6px;animation:bob 2.6s ease-in-out infinite}
+.catprev-box img{width:112px;height:112px;display:block}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.catprev-name{font-size:15px;font-weight:700;color:var(--orange-d)}
+.catprev-breed{font-size:12px;color:var(--gray)}
+.hero{text-align:center;margin:6px 0 4px}
+.hero-cat{width:126px;height:126px;display:block;margin:0 auto 10px;border:3px solid var(--ink);
+ background:var(--cream);padding:5px;box-shadow:5px 5px 0 rgba(43,33,24,.85);animation:bob 2.6s ease-in-out infinite}
+/* 结果 */
+.wrapr{position:relative}
+canvas{width:100%;height:340px;max-width:380px;display:block;margin:0 auto;touch-action:none}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:#fff;border:2px solid var(--ink);
+ padding:8px 11px;font-size:12.5px;line-height:1.55;white-space:nowrap;transform:translate(-50%,-120%);opacity:0;transition:.12s;z-index:5}
+.tip.on{opacity:1}
+.tip b{color:var(--yellow)}
+.legend{display:flex;justify-content:center;gap:16px;font-size:12px;color:var(--gray);margin-top:2px;flex-wrap:wrap}
+.legend i{display:inline-block;width:18px;height:0;border-top:3px solid var(--orange);vertical-align:middle;margin-right:5px}
+.legend i.d{border-top-style:dashed;border-color:#a3907a}
+.legend i.c{border-top:3px solid var(--blue)}
+.type{background:var(--cream);border:3px solid var(--ink);box-shadow:4px 4px 0 rgba(43,33,24,.85);
+ padding:18px 16px;text-align:center;margin:16px 0}
+.type .t1{font-size:12px;color:#a5713f;letter-spacing:3px}
+.type .t2{font-size:20px;font-weight:700;color:var(--orange-d);margin:6px 0 6px}
+.type .t3{font-size:13px;color:#5b4c3d}
+.dim{border-top:3px dashed #e3d2b8;padding:15px 0}
+.dim:first-of-type{border-top:0}
+.dh{display:flex;justify-content:space-between;align-items:center}
+.dn{font-weight:700;font-size:14.5px;display:inline-flex;align-items:center}
+/* 六维度像素 icon（12×12 网格放大 2 倍到 24px，整数倍缩放保持锐利） */
+.dicon{width:24px;height:24px;flex:none;margin-right:8px;image-rendering:auto}
+.ds{font-weight:700;font-size:15px;color:var(--orange-d)}
+.lv{display:inline-block;font-size:11px;padding:2px 8px;background:var(--cream);border:2px solid var(--ink);color:#7d6b56;margin-left:8px}
+.dbar{height:12px;background:#fffdf6;border:3px solid var(--ink);overflow:hidden;margin:8px 0 10px;padding:2px}
+.dbar>i{display:block;height:100%;background:repeating-linear-gradient(90deg,var(--orange) 0 8px,#ffb771 8px 11px)}
+.cmp{font-size:12.5px;color:#7d6b56;background:var(--cream);border:2px solid #e3d2b8;padding:7px 11px;margin-bottom:9px}
+.cmp b{color:var(--orange-d)}
+.dtxt{font-size:13.5px;color:#5b4c3d}
+.adv{background:#fff3e0;border-left:5px solid var(--orange);padding:11px 14px;font-size:13px;color:#5b4c3d;margin-top:10px}
+.adv b{color:var(--orange-d)}
+.tips{background:var(--cream);border:3px solid var(--ink);padding:16px 18px;font-size:13.5px}
+.tips li{margin:8px 0}
+.notice{background:#fff2d6;border:3px solid var(--ink);box-shadow:4px 4px 0 rgba(43,33,24,.85);
+ padding:13px 15px;font-size:13px;color:#8a5a2b;margin-bottom:16px}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tabs>div{flex:1;text-align:center;padding:10px;font-size:13.5px;cursor:pointer;background:var(--cream);
+ color:#7d6b56;border:3px solid #d9c6ac}
+.tabs>div.on{background:var(--orange);color:#fff;font-weight:700;border-color:var(--ink);box-shadow:3px 3px 0 rgba(43,33,24,.85)}
+.foot{font-size:11.5px;color:var(--gray);text-align:center;margin-top:20px;line-height:1.6}
+.dash{border:0;border-top:3px dashed #e3d2b8;margin:22px 0 18px}
+@media print{
+ #sky{display:none!important}
+ body{background:#fff;background-image:none}.btn,.tabs{display:none!important}
+ .card{box-shadow:none;border-color:#999}
+}
+@media (prefers-reduced-motion:reduce){.floaty,.catprev-box,.hero-cat,.intro,.intro-card,.intro-cat,.intro-stars,.intro-shine,.intro-type,.intro-slogan,.intro-kw,.intro-hint,.intro-go{animation:none!important}}
+
+/* ===== 报告入场动画：人格揭晓（电影入场感） ===== */
+.intro{position:fixed;inset:0;z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;
+ overflow:hidden;background:#000;opacity:0;pointer-events:auto;touch-action:manipulation}
+.intro.on{display:flex;animation:introBg .7s steps(1) forwards}
+@keyframes introBg{0%{opacity:0}100%{opacity:1}}
+.intro.stay{opacity:1}
+.intro.out{animation:introOut .45s steps(1) forwards}
+@keyframes introOut{0%{opacity:1}100%{opacity:0}}
+.intro-stars{position:absolute;inset:0;pointer-events:none}
+.intro-star{position:absolute;width:6px;height:6px;background:#fff;border-radius:0;box-shadow:0 0 0 2px rgba(255,255,255,.25);animation:starPop .5s steps(5) both}
+@keyframes starPop{0%{transform:scale(0) rotate(0)}40%{transform:scale(1.6) rotate(45deg)}100%{transform:scale(0) rotate(90deg);opacity:0}}
+.intro-card{position:relative;z-index:2;text-align:center;width:min(520px,92vw);padding:24px 18px;opacity:0;animation:cardIn .8s .35s steps(1) both}
+@keyframes cardIn{0%{opacity:0;transform:scale(.5) translateY(20px)}60%{opacity:1;transform:scale(1.08) translateY(-6px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+.intro-frame{position:relative;display:inline-block;margin:0 auto 14px;width:min(320px,72vw);height:min(320px,72vw);border:4px solid var(--ink);background:#fff8e7;box-shadow:6px 6px 0 rgba(43,33,24,.28);overflow:hidden;animation:framePop 1.1s .5s steps(1) both}
+@keyframes framePop{0%{transform:scale(0) rotate(-8deg)}45%{transform:scale(1.18) rotate(3deg)}70%{transform:scale(.94) rotate(-2deg)}100%{transform:scale(1) rotate(0)}}
+.intro-cat{width:100%;height:100%;object-fit:cover;image-rendering:pixelated;animation:catGlow 1.2s .9s steps(1) both}
+@keyframes catGlow{0%{filter:brightness(1.5)}100%{filter:brightness(1)}}
+.intro-shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,transparent 40%,rgba(255,255,255,.45) 50%,transparent 60%);background-size:300% 300%;animation:shine 1.2s 1.2s steps(1) both}
+@keyframes shine{0%{background-position:100% 0}100%{background-position:0 0;opacity:0}}
+.intro-type{font-size:24px;font-weight:700;color:#fff;margin:4px 0 4px;text-shadow:2px 2px 0 rgba(0,0,0,.35);opacity:0;animation:textIn .55s 1.1s steps(1) both}
+.intro-slogan{font-size:15px;color:#f6e7cc;margin:4px 0 12px;text-shadow:1px 1px 0 rgba(0,0,0,.35);opacity:0;animation:textIn .55s 1.35s steps(1) both}
+.intro-kw{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 18px;opacity:0;animation:textIn .55s 1.55s steps(1) both}
+.intro-kw span{display:inline-block;padding:3px 9px;background:var(--paper);color:var(--ink);font-size:12px;border:2px solid var(--ink);box-shadow:3px 3px 0 rgba(0,0,0,.18)}
+@keyframes textIn{0%{opacity:0;transform:translateY(16px)}100%{opacity:1;transform:translateY(0)}}
+.intro-hint{font-size:12px;color:#a3907a;opacity:0;animation:textIn .5s .9s steps(1) both}
+.intro-go{display:inline-block;margin:6px auto 0;padding:8px 18px;font:inherit;font-size:14px;background:var(--orange);color:#fff8e7;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);cursor:pointer;opacity:0;animation:textIn .5s 1.05s steps(1) both, btnPulse 1.4s 1.6s steps(1) infinite}
+@keyframes btnPulse{0%,100%{transform:translateY(0);box-shadow:4px 4px 0 var(--ink)}50%{transform:translateY(-3px);box-shadow:4px 7px 0 var(--ink)}}
+.intro-go:hover{background:var(--orange-d)}
+.intro-go:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+</style>
+</head>
+<body data-page-node-id="yDIanLXj2CFAa3YA3RnOnt">
+
+<!-- 悬浮像素元素层：全站常驻 -->
+<div id="sky" data-page-node-id="MbPB5pKuVzfnZrYix7n0S3"></div>
+
+<div class="wrap" data-page-node-id="w64JUKkfYiL6Z6yv311Nn2">
+
+<!-- ① 免责声明 -->
+<div id="p-consent" class="card" data-page-node-id="TXgxL3FBAkPWUQuynuDO9k">
+  <div class="badge" data-page-node-id="FNcP7EODiHhSuPioYD8l64"><img src="assets/elements/像素元素-小星星.png" alt="" data-page-node-id="M7npHXJlMAPTtn1Ncr1FAD">6 大维度 · 50+ 道题 · 约 8 分钟</div>
+  <h1 style="font-size:20px" data-page-node-id="6tFbBQ2DoH2hjCyIAvHyfp">🐱 欢迎来到小月说 - 猫咪行为性格测试！ 🐱</h1>
+  <div class="sub" data-page-node-id="lM3upCs6wqlQWIY3GP14Ir">猫咪行为与性格综合评估</div>
+  <div class="box" data-page-node-id="5H7QFvjavSfFgnE1nbmvcM">
+    <b data-page-node-id="x9KFvyPqpyMxwnOItenAXb">1. 这不是诊断</b><br data-page-node-id="XZ2S0KzsuD5vKdmNDlIKZZ">
+    本测试基于主人的日常主观观察，用于<b data-page-node-id="KLY54L7hKXn77R1bQym2z5">科普猫咪行为和性格画像</b>，<b data-page-node-id="uCr8SgaBcCxQxhWNvcfGTx">不构成医疗诊断，也不构成动物行为医学诊断</b>，不能替代执业兽医或认证动物行为顾问的评估。<br data-page-node-id="23gCTHhjbznXJjxhsfFoUd"><br data-page-node-id="kyx0lrr5D6pn1L2gvkw2bt">
+    <b data-page-node-id="V7HXCayn5FFsMe9bdo8YO1">2. 结果怎么用</b><br data-page-node-id="QjSw2Mw4Z41im9Hf0Wl1VA">
+    得分反映的是你在近期观察到的行为频率，会受猫咪的年龄、健康状态、家庭环境、近期经历影响。它用来<b data-page-node-id="HDcrR1YI0V8G7wdtjBxkg0">帮助你更懂你家猫</b>，不应用作弃养、繁殖、用药或体罚的依据。<br data-page-node-id="voNWCbvIiESlKN0cN8pH9G"><br data-page-node-id="ezgSkx4UEVZb5VeEhsAWeD">
+    <b data-page-node-id="9rU46S0AW0mjtBhBdFqi8N">3. 请优先关注健康</b><br data-page-node-id="rMMAWhd6mEPUnhlZiFWQC9">
+    如果猫咪出现<b data-page-node-id="2ED8wQSBZ9FinoTDafSfs9">突然的性格或行为改变</b>（突然攻击、突然乱尿、食欲骤变、过度舔毛），请<b data-page-node-id="xJ1UCH7I6U9d49oIrAArBL">先带它去看兽医</b>——在动物行为学里，超过一半的"行为问题"最初其实都是慢性疼痛在喊救命，猫很会忍着不表现出来。<br data-page-node-id="wLSfe1I79MjdO3J2ur9IJV"><br data-page-node-id="dd2bfcEM5TyMM8izex8BXl">
+    <b data-page-node-id="ekoEi1LuvN162Q6YX9opbK">4. 有效期</b><br data-page-node-id="eleMbo863I5vtAHHZ47gui">
+    报告自生成起 <b data-page-node-id="vGiIathCmJQRGRxQEE6lwX">24 小时后失效</b>，请务必及时截图或导出 PDF 保存。
+  </div>
+  <label class="row" data-page-node-id="HTTanskNOncN5XIjvkV9H9"><input type="checkbox" id="ck" style="margin-top:5px" data-page-node-id="yJsZypvtEQ9TE0OtFgrm1I">
+    <span data-page-node-id="gIU0kAzJMhw8oQbBOfEzkQ">我已认真阅读并同意以上全部条款，理解本测试不构成医疗或行为诊断建议。</span></label>
+  <div class="fld" style="margin-top:10px" data-page-node-id="sXdAzk8zsNLQ1FSMusKRik"><label data-page-node-id="DmOyTOrVgj78cThizxd96I">兑换码（一个兑换码 = 一个家庭，最多 2 只猫）</label>
+    <input type="text" id="code" placeholder="请输入兑换码（体验码：CAT2024）" data-page-node-id="xS4cTK0GX9bSIoxPL046Cd"></div>
+  <button class="btn" id="btn-consent" disabled onclick="toInfo()" data-page-node-id="c4Y3JTfXXHlBxDPSICymMs">同意并继续</button>
+</div>
+
+<!-- ② 家庭 & 猫咪基础信息 -->
+<div id="p-info" class="card hide" data-page-node-id="HuyxhifTQ6ywSbtzEy4BXY">
+  <h2 data-page-node-id="UhsWBdqT1CQxOFjOKN84Dc">先认识一下你的家庭</h2>
+  <div class="sub" data-page-node-id="CxONTyMMGPONHuhjEjWkki">这些信息会帮我们自动跳过不适用的题目，并把结果和你家猫的品种平均水平做对比。</div>
+
+  <div class="fld" data-page-node-id="mAvrRHzcoG7J2zt3lXnYV6"><label data-page-node-id="oK6yIx2NLGDOwfY1ECSoGG">家庭名称（选填，会显示在报告上）</label>
+    <input type="text" id="fname" placeholder="例如：月月家" data-page-node-id="SCaxsLNTCRsAJrzZviCNQ8"></div>
+
+  <div id="catlist" data-page-node-id="ZEch0C3QaWxWGvjwWriudy"></div>
+  <button class="btn ghost small" id="btn-addcat" onclick="addCat()" data-page-node-id="b3epKsOTXEppAKfBGBZJw7">＋ 再添加一只猫（最多 2 只）</button>
+
+  <hr class="dash" data-page-node-id="1Vn877b8fbgxu1If0QM5p9">
+  <h2 style="font-size:15px" data-page-node-id="CRnLq3BKGdG4AmvdrF8lrc">家庭环境（用于跳过不适用的题目）</h2>
+  <div class="fld" data-page-node-id="3OnOxRDPJT5AODKFKDqeSt"><label data-page-node-id="mZ2efVC83rzNPEEw5PnG2q">1. 家里养狗吗？</label><div class="seg" data-k="dog" data-page-node-id="JJ5dPSglBeFAEQNsTmu5cb"><div data-v="1" data-page-node-id="jGK21ddTbftIHE4GPYzxW4">养狗</div><div data-v="0" data-page-node-id="QP3cATWz9Mfl7Ee8GXevAw">没有养狗</div></div></div>
+  <div class="fld" data-page-node-id="TF1Fc8B451IMWBFvEdgibz"><label data-page-node-id="TKGrDGG1x5WVRN9ZvwAdnR">2. 除了参测的猫，家里还有其他猫吗？</label><div class="seg" data-k="cat" data-page-node-id="xKfgDhKbu1yDvXy7KvIZFc"><div data-v="1" data-page-node-id="4EIxivw1tlav3DAP6N3DIw">有</div><div data-v="0" data-page-node-id="5P3UCjT5300LYD5KWBXfIQ">没有（独猫）</div></div></div>
+  <div class="fld" data-page-node-id="dPU8juG8ZiCABhkgErM3WR"><label data-page-node-id="rxwi2meCpop5hepDptMQND">3. 猫咪会接触到小孩子吗？</label><div class="seg" data-k="kid" data-page-node-id="AdCJSgHeEzwLukPZ75SoD2"><div data-v="1" data-page-node-id="PHGAoofTAAk45qYqCNXS3C">经常接触</div><div data-v="0" data-page-node-id="EhICDVNUTzalhYMM8acqOh">几乎不会</div></div></div>
+  <div class="fld" data-page-node-id="EYc0g7UXNqhBzcFBdlVBCP"><label data-page-node-id="Q8GPVa2yqlK2FGqiNmxoh7">4. 猫咪有出门或半户外的机会吗？</label><div class="seg" data-k="out" data-page-node-id="bKJLkobRXATxa6Kesg3qjz"><div data-v="1" data-page-node-id="bcuKWC5jp6ri6SpSEnkmk9">会出门</div><div data-v="0" data-page-node-id="iEnWlbn7nkOqBpDqZmm0xa">完全室内</div></div></div>
+  <div class="fld" data-page-node-id="EbxkGDBRZPaOVi9L5PLJE0"><label data-page-node-id="pYCYr11e7ghFyxZ4MLGMPD">5. 家里还养了其他小宠物吗（仓鼠／鸟／鱼等）？</label><div class="seg" data-k="pet" data-page-node-id="q2s4Rxavpt2TRm7csbIh6Y"><div data-v="1" data-page-node-id="j6joyOchHaJxO8f5jIFU8B">有</div><div data-v="0" data-page-node-id="1UxNw0tWhV9aHRX6MBo8yx">没有</div></div></div>
+  <div id="skipinfo" style="font-size:12.5px;color:#a3907a;margin:6px 0 4px" data-page-node-id="vkB5g3zsLd8aEUHq0TuquD"></div>
+
+  <button class="btn" onclick="toQuiz()" data-page-node-id="6SuqkGtwbdJlQcUszXFF7D">开始答题</button>
+  <button class="btn ghost" onclick="go('consent')" data-page-node-id="NWlTU03O7SeqCTHIj8pBUK">返回</button>
+</div>
+
+<!-- ③ 答题 -->
+<div id="p-quiz" class="card hide" data-page-node-id="pgjrojhLGoFrMOFOaP9H0h">
+  <div class="qmeta" data-page-node-id="Jsmn4kSHRIODkxzJ9jwSul"><span id="qmeta" data-page-node-id="fBBABV6qZ9GCTG5s35QoHw"></span><span class="who" data-page-node-id="YlJ9G3ub0oqViSAXPTUwOS"><img id="qcat-img" class="mini-cat" src="" alt="" data-page-node-id="bDUxP1y289igYAPCJ0BAjJ"><span id="qcat" data-page-node-id="6WAPUHYDr6XoG9OBAwwCwX"></span></span></div>
+  <div class="bar" data-page-node-id="k5jqAQIXDzE7shwwVMPRfg"><i id="qbar" data-page-node-id="6l9pOLacJz5lgYgnRwqVHS"></i></div>
+  <div class="qtext" id="qtext" data-page-node-id="jsIVhNuCzd5L0C2uqBXf6u"></div>
+  <div class="qhint" id="qhint" data-page-node-id="ylGjQS5AAOPFcFfP7c9vN7"></div>
+  <div id="opts" data-page-node-id="RkuEJAyFkfvC5vV4B4VAPg"></div>
+  <div class="nextbox" data-page-node-id="i9rANnEoL3j6CHrLUFwR0g">
+    <button class="btn ghost" id="btn-prev" onclick="prev()" data-page-node-id="6oketmBEw84OMTN5qwPORD">上一题</button>
+    <button class="btn" id="btn-next" onclick="next()" data-page-node-id="wcCxNXFQ71d6Xe9JydEGiy">下一题</button>
+  </div>
+</div>
+
+<!-- ④ 一只猫测完 -->
+<div id="p-mid" class="card hide" data-page-node-id="bkScPCWeuhxDX7n7GKAKjP">
+  <h1 style="font-size:20px" data-page-node-id="MxEdpwuUY2Lt2bNg5YCVNE">★ <span id="mid-name" data-page-node-id="f34yeErEMvX2JZv2VpU76P"></span> 答完啦</h1>
+  <div class="sub" id="mid-sub" data-page-node-id="hGvxmGpym0NEq1cOnUY2qI"></div>
+  <button class="btn" id="btn-mid-next" onclick="startCat(1)" data-page-node-id="YwJC0gr29S1deGup0QmXxu"></button>
+  <button class="btn ghost" onclick="finishAll()" data-page-node-id="pFPTtQr4EygNvQwXrpbIG6">先看报告</button>
+</div>
+
+<!-- ⑤ 报告 -->
+<div id="p-result" class="hide" data-page-node-id="6JGQHv0VOQQDJ224CXCwYs">
+  <div class="card" style="padding:18px 16px" data-page-node-id="3g1GqKva8AZBedgtkEK3Sg">
+    <div class="notice" id="expire-note" data-page-node-id="cVaVrAHbfb9Pf3is0LTpoq"></div>
+    <div class="tabs" id="tabs" data-page-node-id="5DynhAzF1QbvvUZGbk72jd"></div>
+    <div class="hero" data-page-node-id="JuJlAjbhyCLy3pMNgFmynS"><img id="r-catimg" class="hero-cat" src="" alt="" data-page-node-id="ShbKON4cLxQ7UUWjDel9sz"></div>
+    <div class="sub" id="r-sub" style="text-align:center;margin:2px 0 0" data-page-node-id="84Wrr73ofY3eUKnOEQOSPM"></div>
+    <h1 style="text-align:center;margin:6px 0 2px" id="r-title" data-page-node-id="RtuvlXfqG8StcH3Z8EOpTp">猫格报告</h1>
+    <div class="sub" style="text-align:center" data-page-node-id="FKEEp13y3FneA3owBsx1LZ">6 维度行为画像 · 与同品种平均水平对比</div>
+    <div class="wrapr" data-page-node-id="EHMe1OLywlQup7brLdYAfG"><canvas id="radar" data-page-node-id="SbE0RjE7PUzTAFESrVh0Q7"></canvas><div class="tip" id="tip" data-page-node-id="ArgA8EprlqT6UazpkckY4z"></div></div>
+    <div class="legend" data-page-node-id="hajOjH7E7A9hnjhvOXigD5"><span data-page-node-id="UN6hj94CfTFTzQyPzLeAHT"><i data-page-node-id="uYbB1ctIBndn0eG4gOZ51N"></i>你家猫</span><span data-page-node-id="BOeCt26SlO1S0OqGJNevGo"><i class="d" data-page-node-id="0OJ7aGUYrko9bZPYz2EPfN"></i>品种平均</span><span id="lg-cmp" data-page-node-id="2vGqswP8OfJAWoKsBMTzyD"><i class="c" data-page-node-id="4ygF3UqCwKtn2tWvgPbACr"></i>另一只猫</span></div>
+    <div class="type" data-page-node-id="PALzhZY0GbugWs8fzj8QGH">
+      <div class="t1" data-page-node-id="Ne2N4Qqyq6OQ8pPK5fTn7O">猫 格 类 型</div>
+      <div class="t2" id="r-type" data-page-node-id="Os2T3iAsT5oWf59AAvT7iK"></div>
+      <div class="t3" id="r-typedesc" data-page-node-id="nsHXISREXFHVT6BtROKAY5"></div>
+    </div>
+  </div>
+  <div class="card" data-page-node-id="Ed2eVGbeWlgQhm6Hs7d8iK">
+    <h2 data-page-node-id="EBwHllnpQaoCvAgI4LbL8a">六维度详细解读</h2>
+    <div id="dims" data-page-node-id="me4Ys820MSOMj36QBCuUtq"></div>
+  </div>
+  <div class="card" id="cmp-card" data-page-node-id="6MpHSMtFDgQsmoyo9ZN1lf">
+    <h2 data-page-node-id="QUMOnGlj5r3QHlw3G8EUzg">两只猫同框对比</h2>
+    <div class="wrapr" data-page-node-id="WWvz16tOrrqnUmohRKI5ay"><canvas id="radar2" data-page-node-id="SsHYg6P9CG5rPiSwMId1pA"></canvas><div class="tip" id="tip2" data-page-node-id="qrLqhis8VqwYKnT13uteon"></div></div>
+    <div class="legend" data-page-node-id="EbDCjtzUqt5P6ZRwREREcv"><span data-page-node-id="C5ngOdCQGCUNtNDGsB73zi"><i class="c" data-page-node-id="OPJa64CorwXUaCqQCiNFAL"></i><span id="lg-a" data-page-node-id="DF6F0fKJITVpCDmiOvegis"></span></span><span data-page-node-id="FC5x99KPzP5m1Dz2Q7sSQX"><i style="border-color:#e2a05f" data-page-node-id="eJ2BVVq7q5WXMCGBhQswSA"></i><span id="lg-b" data-page-node-id="0N7JGc2dnBvb92tvLFG8LB"></span></span></div>
+    <div class="dtxt" id="cmp-text" style="margin-top:12px" data-page-node-id="ecNBDSnX869HtTBZEEj7KO"></div>
+  </div>
+  <div class="card" data-page-node-id="zcvVHoR41MTeenebO11Nht">
+    <h2 data-page-node-id="Fitjri2byPIWXRwdev07HS">给你的 3 条行动建议</h2>
+    <div class="tips" data-page-node-id="CcnxjH4N49k4vrQYpVDtgD"><ol id="r-tips" data-page-node-id="GdtOjilYuy88NI5oIJE6BN"></ol></div>
+    <button class="btn" onclick="window.print()" data-page-node-id="eqnE5rmsOY1uHPM1uNOilH">保存为 PDF / 打印</button>
+    <button class="btn ghost" onclick="restart()" data-page-node-id="tEI383ZbBxlsr8tQw0DI69">再测一次</button>
+  </div>
+  <div class="foot" data-page-node-id="cwkFZWb0y3mCJdGBhwheC6">
+    本结果基于主人主观观察，不构成医疗或行为诊断。若行为突然改变，请先就医。<br data-page-node-id="eLwM2cRDnfWfZKvVErPkG0">
+    题目由本团队独立编写与本地化改编；解读部分参考 AAFP/ISFM《Feline Environmental Needs Guidelines》(2013) 与 Heath《Understanding Feline Emotions》(2018) 的学术框架，结果仅供参考。
+  </div>
+</div>
+
+</div>
+
+<script>
+/* ==================== 1. 维度 ==================== */
+const DIMS=[
+ {n:'社交性',   good:1, d:'对人的亲近程度、互动意愿与表达欲'},
+ {n:'环境胆量', good:1, d:'面对新事物、噪音、陌生环境与陌生人的适应力'},
+ {n:'攻击倾向', good:0, d:'对人／猫／狗的防御与攻击反应强度'},
+ {n:'情绪敏感', good:0, d:'分离焦虑、紧张与不安的程度'},
+ {n:'活力与配合',good:1, d:'活动水平、游戏性与可训练程度'},
+ {n:'生活适应', good:1, d:'排泄、抓挠、刻板等行为问题的多少（越高越省心）'}
+];
+const OPTS=['从不','很少','有时','经常','总是'];
+// 六个维度的像素 icon（12×12 网格手绘，与整体像素风统一）
+const DIMICON=['heart','shield','bolt','cloud','star','house'];
+
+/* ==================== 2. 品种平均（来自品种常模收集表，Fe-BARQ → 6 维度映射）==================== */
+const BREEDS=['中华田园猫／混种猫','狸花猫','橘猫','奶牛猫','三花猫','山东狮子猫','英国短毛猫','英国长毛猫','美国短毛猫','布偶猫','暹罗猫','缅因猫','苏格兰折耳猫','高地折耳猫','俄罗斯蓝猫','挪威森林猫','波斯猫','金吉拉猫','异国短毛猫（加菲）','孟加拉豹猫','阿比西尼亚猫','索马里猫','埃及猫','孟买猫','缅甸猫','伯曼猫','土耳其梵猫','日本短尾猫','斯芬克斯无毛猫','德文卷毛猫','柯尼斯卷毛猫','塞尔凯克卷毛猫','美国卷耳猫','曼基康猫（矮脚猫）','拿破仑猫（米努特）','金渐层','银渐层','其他品种'];
+// 顺序 = [社交性, 环境胆量, 攻击倾向, 情绪敏感, 活力与配合, 生活适应]
+const BREED_AVG={
+ '中华田园猫／混种猫':[59,63,19,17,57,70],
+ '狸花猫':[56,62,21,17,60,70],
+ '橘猫':[62,60,22,18,56,69],
+ '奶牛猫':[60,62,22,17,59,70],
+ '三花猫':[57,61,24,18,58,68],
+ '山东狮子猫':[54,62,19,16,55,72],
+ '英国短毛猫':[48,64,10,14,48,77],
+ '英国长毛猫':[49,63,11,14,47,76],
+ '美国短毛猫':[57,66,13,14,57,75],
+ '布偶猫':[61,68,13,18,60,72],
+ '暹罗猫':[64,60,15,20,62,71],
+ '缅因猫':[63,70,14,16,59,72],
+ '苏格兰折耳猫':[60,63,17,19,52,71],
+ '高地折耳猫':[60,62,17,19,51,70],
+ '俄罗斯蓝猫':[58,56,15,19,65,69],
+ '挪威森林猫':[57,71,11,18,63,62],
+ '波斯猫':[59,66,15,19,54,74],
+ '金吉拉猫':[54,64,12,17,50,73],
+ '异国短毛猫（加菲）':[51,66,11,15,47,74],
+ '孟加拉豹猫':[58,68,14,18,65,68],
+ '阿比西尼亚猫':[64,73,14,14,65,67],
+ '索马里猫':[62,70,15,18,68,69],
+ '埃及猫':[58,58,17,18,68,70],
+ '孟买猫':[66,66,13,19,62,70],
+ '缅甸猫':[68,74,14,23,66,67],
+ '伯曼猫':[56,65,16,19,48,63],
+ '土耳其梵猫':[52,72,29,20,68,63],
+ '日本短尾猫':[62,70,16,16,70,72],
+ '斯芬克斯无毛猫':[69,68,13,23,66,69],
+ '德文卷毛猫':[62,58,20,18,62,69],
+ '柯尼斯卷毛猫':[66,72,13,19,72,69],
+ '塞尔凯克卷毛猫':[62,64,13,17,56,72],
+ '美国卷耳猫':[52,65,9,12,58,77],
+ '曼基康猫（矮脚猫）':[61,67,14,17,62,72],
+ '拿破仑猫（米努特）':[64,63,12,17,49,72],
+ '金渐层':[55,65,14,14,54,74],
+ '银渐层':[52,65,12,15,52,75],
+ '其他品种':[59,66,15,18,59,71]
+};
+// 品种别名（搜索用），键 = 完整品种名，值 = 额外可被搜到的字符串数组
+const BREED_ALIAS={
+ '英国短毛猫':['英短','蓝猫','金渐层英短'],
+ '英国长毛猫':['英长'],
+ '美国短毛猫':['美短'],
+ '异国短毛猫（加菲）':['加菲','加菲猫'],
+ '曼基康猫（矮脚猫）':['矮脚','短腿'],
+ '拿破仑猫（米努特）':['米努特'],
+ '金吉拉猫':['金吉拉'],
+ '斯芬克斯无毛猫':['无毛','加拿大无毛'],
+ '中华田园猫／混种猫':['土猫','田园','混种'],
+ '日本短尾猫':['日短','招财猫'],
+ '阿比西尼亚猫':['阿比'],
+ '塞尔凯克卷毛猫':['塞尔凯克']
+};
+const DEFAULT_AVG=[56,53,40,46,57,71];
+const SEX_OPT=['公猫（已绝育）','公猫（未绝育）','母猫（已绝育）','母猫（未绝育）'];
+const AGE_OPT=['小于 6 个月','6 个月 – 1 岁','1 – 3 岁','4 – 7 岁','8 岁及以上'];
+
+/* ==================== 2.5 品种 → 像素猫形象映射 ==================== */
+const CATIMG={
+ '中华田园猫／混种猫':'像素猫-中华田园猫','狸花猫':'像素猫-狸花猫','橘猫':'像素猫-橘猫',
+ '奶牛猫':'像素猫-奶牛猫','三花猫':'像素猫-三花猫','山东狮子猫':'像素猫-中华田园猫',
+ '英国短毛猫':'像素猫-英国短毛猫','英国长毛猫':'像素猫-英国短毛猫','美国短毛猫':'像素猫-美国短毛猫',
+ '布偶猫':'像素猫-布偶猫','暹罗猫':'像素猫-暹罗猫','缅因猫':'像素猫-缅因猫',
+ '苏格兰折耳猫':'像素猫-苏格兰折耳猫','高地折耳猫':'像素猫-苏格兰折耳猫','俄罗斯蓝猫':'像素猫-俄罗斯蓝猫',
+ '挪威森林猫':'像素猫-挪威森林猫','波斯猫':'像素猫-波斯猫','金吉拉猫':'像素猫-银渐层',
+ '异国短毛猫（加菲）':'像素猫-异国短毛猫','孟加拉豹猫':'像素猫-孟加拉豹猫','阿比西尼亚猫':'像素猫-孟加拉豹猫',
+ '索马里猫':'像素猫-孟加拉豹猫','埃及猫':'像素猫-孟加拉豹猫','孟买猫':'像素猫-俄罗斯蓝猫',
+ '缅甸猫':'像素猫-中华田园猫','伯曼猫':'像素猫-布偶猫','土耳其梵猫':'像素猫-三花猫',
+ '日本短尾猫':'像素猫-三花猫','斯芬克斯无毛猫':'像素猫-斯芬克斯无毛猫','德文卷毛猫':'像素猫-斯芬克斯无毛猫',
+ '柯尼斯卷毛猫':'像素猫-斯芬克斯无毛猫','塞尔凯克卷毛猫':'像素猫-英国短毛猫','美国卷耳猫':'像素猫-美国短毛猫',
+ '曼基康猫（矮脚猫）':'像素猫-苏格兰折耳猫','拿破仑猫（米努特）':'像素猫-波斯猫',
+ '金渐层':'像素猫-金渐层','银渐层':'像素猫-银渐层','其他品种':'像素猫-中华田园猫'
+};
+const catSrc=b=>'assets/cats/'+(CATIMG[b]||'像素猫-中华田园猫')+'.png';
+
+/* ==================== 3. 题库（58 题）==================== */
+// d=维度索引  r=1反向计分（该题越高，维度分越低）
+// cond: dog=家里有狗 / cat=家里有其他猫 / kid=接触小孩 / out=会出门 / pet=有其他小宠物
+const Q=[
+/* 社交性 10 */
+{d:0,n:16,t:'被不太熟悉的人（不是家里人）抚摸时，您的猫咪能自在放松地接受吗？',e:'例如：客人、朋友第一次摸它，它不躲也不僵'},
+{d:0,n:17,t:'家里来了陌生的客人，您的猫咪会友好地上前打招呼吗？',e:'例如：凑过去闻一闻、蹭一蹭、发出呼噜声，或者干脆躺下打滚'},
+{d:0,n:15,t:'在人比较多的场合里（比如朋友聚会），您的猫咪看起来自在、放松吗？',e:'例如：不会一直躲起来、不会一有人靠近就跑'},
+{d:0,n:28,t:'您或家人坐着、躺着的时候，猫咪会主动过来用头或身体蹭您、拱您吗？',e:'例如：你一坐下它就过来用脑门顶你的手'},
+{d:0,n:29,t:'您的猫咪会主动凑过来，寻求和您或家人的身体接触吗？',e:'例如：跳上沙发挨着你坐下、把爪子搭在你身上'},
+{d:0,n:26,t:'您抚摸它的时候，猫咪会发出呼噜呼噜的声音吗？',e:'例如：一挠它下巴或后背，就开始呼噜'},
+{d:0,n:27,t:'猫咪趴在您腿上或怀里的时候，会呼噜吗？',e:'例如：窝在你腿上没几分钟就呼噜起来'},
+{d:0,n:22,t:'您跟猫咪说话的时候，它会"回话"吗？',e:'例如：你问它"饿啦？"，它回你一声"喵"'},
+{d:0,n:18,t:'家里来了陌生的小朋友，您的猫咪会友好地上前打招呼吗？',e:'例如：闻一闻、蹭一蹭、呼噜、躺下打滚',cond:'kid'},
+{d:0,n:97,t:'猫咪会特意趴在您正在看的书、正在用的纸上，或者您的键盘上吗？',e:'例如：你一打开笔记本电脑它就躺上来，一摊开书它就压上去'},
+/* 环境胆量 9 */
+{d:1,n:55,t:'它常待的地方被改动时，您的猫咪会显得坐立不安吗？',e:'例如：挪了猫窝、换了床单被套，它会到处查看、来回走动',r:1},
+{d:1,n:56,t:'家里添了没见过的新东西，猫咪会紧张不安或者一直警觉地盯着吗？',e:'例如：新家具、新箱子、新电器，它会竖着耳朵一直观察，不敢靠近',r:1},
+{d:1,n:94,t:'突然的或很大的声音，会把您的猫咪吓跑、吓到躲起来吗？',e:'例如：吸尘器、打雷、摔东西、装修声、门铃和敲门声',r:1},
+{d:1,n:92,t:'日常作息发生变化时，您的猫咪能比较快适应吗？',e:'例如：喂食时间调整、家具挪了位置、换了猫砂盆的位置'},
+{d:1,n:2,t:'面对没见过的新东西，您的猫咪会主动凑上去闻一闻、看一看、探索一番吗？',e:'例如：一个新的纸箱、一个新买的物件'},
+{d:1,n:89,t:'您抱起它、或者让它趴在腿上时，它会显得不舒服吗？',e:'例如：发抖、身体僵硬、挣扎着想下来',r:1},
+{d:1,n:93,t:'被兽医检查或治疗的时候，猫咪会哈气、抓人或咬人吗？',e:'例如：在医院被抱上诊疗台、被量体温的时候',r:1},
+{d:1,n:54,t:'家里来了陌生的狗，猫咪会吓得跑开或躲起来吗？',e:'例如：朋友带狗来家里做客时',r:1,cond:'dog'},
+{d:1,n:53,t:'有陌生的猫来到家里或院子附近时，猫咪会吓得跑开或躲起来吗？',e:'例如：窗外或阳台出现了流浪猫',r:1,cond:'out'},
+/* 攻击倾向 11 */
+{d:2,n:33,t:'不熟悉的人想摸它的时候，猫咪会哈气或低吼吗？',e:'例如：客人第一次伸手想摸它的时候'},
+{d:2,n:35,t:'家里来了陌生的成年客人，猫咪会冲对方哈气或低吼吗？',e:'例如：快递员、维修师傅、朋友上门的时候'},
+{d:2,n:36,t:'您摸到它肚子的时候，猫咪会抓您或咬您吗？（不是玩耍的那种）',e:'例如：它躺下露肚皮，你一伸手摸，它立刻抱住你的手又踢又咬'},
+{d:2,n:37,t:'顺着它的背／脊椎往下摸的时候，猫咪会哈气、抓人或咬人吗？',e:'例如：从头往尾巴方向顺毛时，它突然回头'},
+{d:2,n:38,t:'正摸着摸着，猫咪会突然、毫无预兆地给您一口或一爪吗？',e:'例如：前一秒还在呼噜，下一秒突然给你一口'},
+{d:2,n:39,t:'猫咪会追着人的腿或脚又抓又咬吗？（不是玩耍的那种）',e:'例如：你从它旁边走过时，它突然扑上来抱住你的小腿'},
+{d:2,n:42,t:'给猫咪梳毛的时候，它会哈气、抓人或咬人吗？',e:'例如：梳到肚子、后腿或尾巴根的时候'},
+{d:2,n:43,t:'给猫咪剪指甲的时候，它会哈气、抓人或咬人吗？',e:'例如：你刚拿出指甲剪、或者刚握住它的爪子'},
+{d:2,n:34,t:'家里来了陌生的小朋友，猫咪会冲对方哈气或低吼吗？',e:'',cond:'kid'},
+{d:2,n:48,t:'猫咪会对家里的狗哈气或低吼吗？',e:'例如：狗狗靠近它的食盆、猫窝，或它常待的地方时',cond:'dog'},
+{d:2,n:44,t:'猫咪正在吃饭时，家里的其他猫靠近，它会哈气或低吼吗？',e:'也就是护食。例如：另一只猫路过它正在吃饭的地方',cond:'cat'},
+/* 情绪敏感 9 */
+{d:3,n:57,t:'您或家人准备出门时（比如拿钥匙、换鞋），猫咪会显得坐立不安、来回踱步吗？',e:'例如：一看到你换鞋、拿包，它就开始叫或跟着你走'},
+{d:3,n:58,t:'您准备出门的时候，猫咪会闷闷不乐地躲开，或者悄悄溜走吗？',e:'例如：本来在客厅玩，看到你要出门就钻进床底不出来'},
+{d:3,n:59,t:'您准备出门的时候，猫咪会趴在门口、守在门口不动吗？',e:'例如：趴在玄关垫子上、守在门口不动'},
+{d:3,n:60,t:'把猫咪一个人留在家里时，它会显得焦躁不安吗？',e:'例如：到处走、到处闻、翻东西'},
+{d:3,n:61,t:'把猫咪一个人留在家里时，它会一直保持警觉吗？',e:'例如：耳朵不停地动、一直盯着某个方向'},
+{d:3,n:62,t:'把猫咪一个人留在家里时，它会一直叫吗？',e:'例如：您出门后还能在门外听到它叫，或者监控里看到它一直喵喵'},
+{d:3,n:86,t:'您对家里其他人、别的猫或别的动物表示亲昵时，猫咪会躁动不安或叫个不停吗？',e:'也就是我们常说的"吃醋、争宠"'},
+{d:3,n:87,t:'猫咪会突然大声地嚎叫吗？',e:'白天或夜里都有，而且附近并没有别的猫或动物'},
+{d:3,n:100,t:'把猫咪一个人留在家里时，它会啃咬或破坏家里的东西吗？',e:'例如：咬电线、扒拉东西下桌、抓门框'},
+/* 活力与配合 10 */
+{d:4,n:6,t:'猫咪会在一天中的某些时段突然疯跑、爆冲或者窜上窜下吗？',e:'也就是大家常说的"跑酷、发疯时刻"'},
+{d:4,n:5,t:'猫咪会跳得很高，喜欢爬到柜顶、书架、窗帘这些高处吗？',e:'例如：冰箱顶、衣柜顶、门框上面、窗帘杆'},
+{d:4,n:8,t:'玩逗猫棒、小球、毛线这些会动的东西时，猫咪会追、会扑吗？',e:''},
+{d:4,n:63,t:'您叫猫咪名字的时候，它会过来吗？',e:'例如：你在另一个房间喊它，它会跑过来'},
+{d:4,n:64,t:'猫咪能听懂一些简单的指令吗？',e:'例如："出去""进来""安静""下来""上去""不行""趴下"'},
+{d:4,n:65,t:'您说话或做事的时候，猫咪会认真看着、听着，像在关注您的一举一动吗？',e:'例如：你在厨房做饭、在书桌前工作，它就坐在旁边目不转睛'},
+{d:4,n:13,t:'猫咪会叼着玩具或小物件过来，主动邀请您一起玩吗？',e:'例如：把逗猫棒或小球叼到你脚边'},
+{d:4,n:1,t:'给猫咪一个新玩具，它能很快自己琢磨出玩法吗？',e:'例如：一个新的弹簧老鼠、一根没见过的新逗猫棒'},
+{d:4,n:91,t:'您把东西或玩具扔出去，猫咪会捡回来吗？（会玩"巡回"游戏）',e:'例如：把纸团扔出去，它会叼回来放在你脚边'},
+{d:4,n:11,t:'猫咪会追着影子或光点跑吗？',e:'例如：追激光笔、追窗边晃动的反光'},
+/* 生活适应 9 */
+{d:5,n:80,t:'猫咪会在猫砂盆以外的地方小便吗？',e:'例如：床上、沙发、墙角、纸箱里',r:1},
+{d:5,n:81,t:'猫咪会在猫砂盆以外的地方大便吗？',e:'例如：猫砂盆旁边的地上、墙角、床底下',r:1},
+{d:5,n:88,t:'猫咪会用"站着、尾巴竖起来"的姿势在家里喷尿吗？',e:'常见于家具、墙壁、甚至人的腿上',r:1},
+{d:5,n:96,t:'猫咪会在家具、地毯、窗帘或墙纸上磨爪子吗？',e:'例如：沙发扶手、床单、地毯边缘',r:1},
+{d:5,n:74,t:'猫咪会过度地舔毛、理毛吗？',e:'例如：一天好几次，每次都舔很久，甚至舔到皮肤发红、掉毛',r:1},
+{d:5,n:75,t:'猫咪会把身上的毛咬掉、拔掉，或者拼命啃／舔自己身体的某个部位吗？',e:'例如：肚子、后腿、尾巴根被舔秃了',r:1},
+{d:5,n:78,t:'猫咪会长时间盯着"什么都没有"的地方发呆、定住不动，或者反复地来回踱步吗？',e:'例如：盯着空气某处一动不动、在两点之间来回走',r:1},
+{d:5,n:98,t:'猫咪会一直追着自己的尾巴或屁股转圈吗？',e:'例如：原地打着转追自己的尾巴、追自己的后腿',r:1},
+{d:5,n:68,t:'猫咪会对家里的其他小宠物特别着迷、一直盯着看吗？',e:'例如：仓鼠、鸟、鱼、兔子',r:1,cond:'pet'}
+];
+
+/* ==================== 4. 报告文案（温柔版）==================== */
+// [低分解读, 低分建议, 中等解读, 中等建议, 高分解读, 高分建议]
+const REPORT={
+0:{l:['它是那种"我爱你，但请给我一点空间"的猫。它表达爱的方式，更像是安静地待在同一个房间里、远远地看着你，而不是黏上来蹭你抱你。这不是冷漠，只是它的爱的语言比较含蓄。',
+     '先别急着"纠正"它。试着把主动权交给它——它主动靠近的时候，你就温柔回应；它想走的时候，就大方放行。慢慢它会知道：靠近你是安全的、是被欢迎的。<br><br><b style="color:#a5713f">依据：</b>Heath (2018) 把猫咪对人的回避/趋近，看作它在向你表达"我也爱你，但需要自己的节奏"。和传统的"冷漠"标签不同，这是一种值得被尊重的沟通方式。'],
+    m:['它有自己很清楚的社交节奏：心情好的时候会主动来找你撒娇，但也会明明白白地告诉你"够了哦"。这其实是大多数猫咪最健康、最舒服的状态。',
+     '顺着它的信号来就好啦。它来，你就热情地回应它；它走，你也别追。每天抽出 2–3 次、每次 5–10 分钟专心陪它玩，比一整天断断续续地打扰它，效果要好得多。<br><br><b style="color:#a5713f">小贴士：</b>让它自己决定"开始"和"结束"，能很大程度上帮它把"靠近人类"这件原本有点压力的事，慢慢重新编码成一件值得期待的事。'],
+    h:['它是猫界的小太阳呀——跟前跟后、主动蹭人，把"陪陪我"三个字写在脸上。这种猫对陪伴的需求量真的不小，你在哪里，它的安全感就在哪里。',
+     '每天给它留一段固定的"专属时间"吧，比如 10–15 分钟的逗猫棒游戏，最后用小零食收尾，它会特别满足。要出远门的时候，在它窝里放一件你穿过的旧衣服；如果经常不在家，可以考虑找个同伴，或者请人上门陪陪它。']},
+1:{l:['它对变化真的很敏感——换了个新家具、家里来了陌生人、突然一声响，都可能让它躲很久。请先别觉得它是"胆小没用"，它只是天生应激的门槛比较低，感知世界的音量比别的猫大一些。',
+     '给它留一个"谁也不能打扰"的安全角落吧，最好是高处加隐蔽的组合，比如猫爬架最上面那层，或者一个开口朝墙的纸箱。家里有任何变化，先保证这个角落不动。遇到吸尘器这类噪音，可以一边给它零食，一边由远及近慢慢来，帮它一点点脱敏。<br><br><b style="color:#a5713f">依据：</b>AAFP/ISFM 五项环境需求的第一条，就是给猫一个随时能躲、有熟悉气味、别人进不去的安全港。对胆小的猫来说，这个角落就是它的"心理急救箱"。'],
+    m:['日常的这些小变化它都还应付得来，不过遇到搬家、装修、家里添新成员这种大变动，它也会明显紧张好几天，需要一点时间缓一缓。',
+     '大变动来临前，帮它做点准备：先把有它气味的毯子、猫抓板搬到新环境里；市面上有猫咪费洛蒙扩散器可以考虑试试；最重要的是，变动期间尽量把喂食和陪玩的时间固定下来——熟悉的生活节奏，就是它最好的定心丸。<br><br><b style="color:#a5713f">小贴士：</b>变动期间尽量少搞清洁——你刚擦过的地板、刚换的床单，都在让猫一遍遍重新"确认领地"。那是它的负担，不是它的在意。'],
+    h:['它是天生的小探险家呀，新箱子、新柜子、新环境，都要第一个冲过去检查一遍。好奇心旺盛，适应力也很棒，是个"随遇而安"的小朋友。',
+     '不过探险家最需要的，是安全网。请一定做好封窗和阳台的防护（这是好奇心旺盛的猫咪最常见的意外原因）；绳子、塑料袋、百合、人类药物都要收好。同时源源不断地给它新的探索素材吧——一个纸箱、一个新纸袋，就够它开心好一阵了。<br><br><b style="color:#a5713f">别忘了：</b>胆大不等于不需要安全港。这个角落反而对它更重要——它是主动回去充电的地方。']},
+2:{l:['它很少动用牙齿和爪子，容忍度相当高，是那种"你怎么揉它都不生气"的好脾气猫。',
+     '保持现状就很棒啦。唯一想提醒的是：脾气好不代表没有底线，请也让家里的小朋友学会尊重它的"停止信号"，别因为它不反抗就一直折腾它。另外每年体检时，可以请医生顺便摸一摸它有没有哪里会痛。<br><br><b style="color:#a5713f">依据：</b>Heath (2018) 强调，攻击/防御反应往往是 cats 表达"我撑不住了"的最后一道防线。沉默不反抗的猫，未必是没问题，只是把信号压在了别处——比如过度舔毛、不上厕所。'],
+    m:['它是一只"有底线"的猫——碰到某些部位、被限制自由、或者被吓到的时候，它会清清楚楚地反击，告诉你"这里不行"。其实这是很健康的沟通方式，它愿意明确表达，比闷着不说要好得多。',
+     '不妨拿手机记一下：什么时候、什么部位、对谁会触发。摸清规律之后尽量绕开就好。每次互动控制在 3–5 分钟，它还没烦的时候就主动收手，让它每次都意犹未尽。还有，千万不要打它——惩罚只会让它更紧张、下次出手更重。剪指甲梳毛之前，可以做"碰一下→给零食"的小练习，慢慢来。<br><br><b style="color:#a5713f">特别提醒：</b>如果它最近脾气突然变大、或者突然不愿意被人碰某些部位——请第一件事先带它去兽医那里排除疼痛（关节、口腔、皮肤、泌尿道都是高发位）。行为问题有 70% 左右的概率，背后站着生理问题。'],
+    h:['它的防御反应比较强烈，触发的门槛也比较低，这通常意味着它平时就处在比较高的警觉和压力里。它不是"坏"，它只是有点累、有点紧张。',
+     '第一步，请优先带它去看一次医生，排查疼痛——口腔、关节、皮肤、泌尿道的问题，都会让猫变得爱攻击，而且突发或加重的攻击，几乎都要先看病。第二步，减少强迫性的接触，改用零食把"你靠近它"这件事变成好事。第三步，如果家里不止一只猫，请检查资源够不够：食盆、水盆、猫砂盆建议按"猫的数量 +1"来准备，再加上足够的躲藏点和高处。如果还是比较棘手，建议找一位不用惩罚类工具的认证动物行为顾问。<br><br><b style="color:#a5713f">依据：</b>Heath 把它命名为"repulsion（排斥）"——这不是坏脾气，是那只猫目前真心承受不起了。先降低它的负担，再谈训练。']},
+3:{l:['它是个情绪很稳的小朋友，你出门、家里来人，对它来说都不算什么大事。养到这样的猫，真的挺省心的。',
+     '保持现在稳定的生活节奏就好啦——固定的吃饭时间、固定的游戏时间、固定的睡觉地点，对它来说就是最好的保养品。'],
+    m:['它对分离和变化有一些小反应——你出门后它可能会叫一阵，客人来了它会先躲一会儿，不过它自己能慢慢平复下来，不需要你特别担心。',
+     '可以试试把出门变得"没什么大不了"：提前十分钟就把钥匙背包收好，出门时不夸张地告别，回家后也先别急着抱它，等它平静下来再互动。出门前留一个漏食玩具或者嗅闻垫，让它有事可做，会好很多。'],
+    h:['它真的很在乎你——独处的时候会叫、会不安、会吃不下，你回家了又寸步不离地跟着。这不是"矫情"，它是把你看成了自己的安全基地，只是这个基地一离开，它就慌了。',
+     '我们可以帮它重新理解"出门"这件事：只在你要出门的时候，给它一个平时吃不到的高价值漏食玩具，让它慢慢觉得"主人出门 = 有好事"。同时做短时分离的小练习，从 1 分钟开始，到 5 分钟、30 分钟，一点点拉长，别一次跳太远。家里的环境也可以更丰富些——猫爬架、窗边能看鸟的观察位、每天两次的猎食游戏，都能帮它把多余的精力安放好。对了，如果它同时出现了乱尿或者不吃东西，请一定先去医院排查泌尿道和消化道的问题。<br><br><b style="color:#a5713f">依据：</b>分离相关的不安在文献里属于"frustration（挫败）+ panic-grief（依恋焦虑）"两个系统在打架——它很爱你，却不得不学着接受你不在。这两个系统都需要时间重新平衡。']},
+4:{l:['它偏安静，玩一小会儿就不玩了，叫它也常常不理。这可能是天生的性格，也可能是身体在悄悄发出信号，值得你多留意一下。',
+     '建议先排除生理上的原因：疼痛、超重、关节炎、甲状腺的问题，都会让猫变得懒洋洋的。游戏方面，可以换成慢一点的逗猫棒——羽毛类的、在地上爬行的那种，参与门槛更低。另外把互动拆成一天好几次、每次三五分钟的小片段，它会更容易接受。<br><br><b style="color:#a5713f">依据：</b>Heath 在文中强调，活动量的下降、对外界兴趣的下降，常常是慢性疼痛的一种伪装。猫很会"装作没事"，因此兽医体检不能省。'],
+    m:['它有自己固定的活跃时段（很多猫是清晨和深夜，你懂的），愿意玩也愿意配合，只是持续的时间不算长。',
+     '试着把游戏安排在"它最活跃"和"你最方便"的交叉点上。还有一个小秘诀：每次游戏都以"追逐 → 扑到 → 吃到东西"这个完整的猎食循环收尾，能明显减少它半夜跑酷的频率。每周教它一个小技能，也能保持它的学习兴趣哦。<br><br><b style="color:#a5713f">小贴士：</b>多猫家庭里，跟每只猫的游戏请错开时间和地点——同时段同时地玩，反而容易触发彼此的竞争和紧张。'],
+    h:['它精力超级旺盛，学东西也快，是最好训练、但也最容易"拆家"的那种类型。脑子里像装了个小马达，停不下来。',
+     '请给它足够多的出口：每天至少两次、每次 10–15 分钟的高强度游戏，跑够、跳够、扑够。可以用响片训练把这份过剩的精力导向学技能——握手、转圈、取物，它会学得很开心。睡前来一轮游戏加一顿饭，是解决"半夜跑酷"最有效的一招。家里也可以给它留一条合法的"高速通道"，让它想跑的时候有地方跑。<br><br><b style="color:#a5713f">依据：</b>AAFP/ISFM 第三条"提供游戏和猎食行为的出口"，就是为这种小猫写的。没有被好好消耗的精力，最容易变成捣乱、互相攻击、甚至皮肤过度舔毛。']},
+5:{l:['在排泄、抓挠、理毛或进食这些方面，它目前让你们比较操心。先抱抱你，这些真的挺消耗耐心的——但请相信，它也不是故意的。',
+     '我们先记住一个原则：先病后行为。乱尿要先查泌尿系统，过度舔毛要先查皮肤病和疼痛，把身体的问题排除了，再谈行为调整。然后是环境：猫砂盆的数量请按"猫的数量 + 1"来准备，放在安静、容易到达、离食盆有距离的地方；抓挠的话，在它最爱抓的那个位置旁边，立刻立一块猫抓板，竖着的横着的都试一试，找到它喜欢的。最后，千万不要打骂它——惩罚不会让它停止，只会让它换一个你更找不到的地方继续。'],
+    m:['大部分时候它都挺乖的，偶尔会有些小状况——比如偶尔抓一下沙发、偶尔挑个食、偶尔半夜嚎一嗓子。这是很常见的，别太焦虑。',
+     '针对那一个具体的问题做个小调整就够了：爱抓沙发，就在沙发旁边立个抓板，撒点木天蓼；挑食，就把喂食时间固定下来，放 15 分钟不吃就收走，中间不再补零食；半夜叫，就看看白天的活动量是不是不太够。一次只改一件事，观察一到两周。'],
+    h:['它在生活习惯上真的很让人省心，没什么让人头疼的问题行为。你把它照顾得很好。',
+     '保持现在的环境配置就好啦。还想提醒一句：每年体检的时候，记得跟医生聊聊它这一年的行为有没有变化——行为的改变，常常是疾病最早发出的信号，早发现真的能省下很多钱和很多心疼。']}
+};
+
+const TYPEIMG={
+ BULLY:'assets/personalities/像素猫-小霸王.png',
+ CLING:'assets/personalities/像素猫-粘人小尾巴.png',
+ POET:'assets/personalities/像素猫-敏感小艺术家.png',
+ STAR:'assets/personalities/像素猫-派对小太阳.png',
+ SHY :'assets/personalities/像素猫-窝里横.png',
+ EXPL:'assets/personalities/像素猫-探险家.png',
+ SAGE:'assets/personalities/像素猫-高冷观察家.png',
+ BUDDY:'assets/personalities/像素猫-佛系室友.png'
+};
+const TYPES=[
+ {code:'BULLY', kw:['护食护窝','划清底线','不爱藏着','读得懂才相处得了'], color:'#e2762a', accent:'#ffd35c',
+  f:s=>s[2]>=60, n:'小霸王 · 边界守卫者',
+  slogan:'它不是坏脾气，只是把底线画得很清楚。',
+  d:'它不是脾气坏，只是底线很低、表达很直接。读懂它的雷区，比纠正它有用得多。'},
+ {code:'CLING', kw:['主人就是安全基地','容易焦虑','可预期胜过一切','怕孤独不怕烦'], color:'#ff8fa8', accent:'#ffd0e0',
+  f:s=>s[3]>=60, n:'粘人小尾巴 · 高需求宝宝',
+  slogan:'你在的地方，就是它的"家"本身。',
+  d:'你在的地方，就是它的安全基地。给它可预期的日常，它就能安心下来。'},
+ {code:'POET',  kw:['熟悉大过新意','气味记忆型','小变化是大事','给它一座安全岛'], color:'#6fc3e8', accent:'#cfeaf6',
+  f:s=>s[5]<=45, n:'敏感小艺术家 · 环境优化需求者',
+  slogan:'它用各种小细节，告诉你它今天舒不舒服。',
+  d:'它的那些"问题行为"，多半是在告诉你：环境里有什么让它不舒服了。'},
+ {code:'STAR',  kw:['人来疯','人见人爱','空闲是它的敌人','别忽略"陪"这个需求'], color:'#ffb02e', accent:'#ffe6b0',
+  f:s=>s[0]>=60&&s[1]>=55, n:'派对小太阳 · 社交天花板',
+  slogan:'它是天生的气氛组，谁来都能聊两句。',
+  d:'谁来都能聊两句的社牛猫，唯一的风险是——你陪得不够。'},
+ {code:'SHY',   kw:['内外反差','认人不认地','小甜心·小刺猬','高下限低上限'], color:'#c9a3ff', accent:'#efe4ff',
+  f:s=>s[0]>=60&&s[1]<55, n:'窝里横 · 认生粘人精',
+  slogan:'熟人面前是小甜心，生人一来就消失。',
+  d:'熟人面前是小甜心，陌生人一来就消失。安全感全看对象，很有个性。'},
+ {code:'EXPL',  kw:['自由是无价之宝','拆家探索二合一','不怕生怕无聊','上房必揭瓦'], color:'#86c86a', accent:'#d8efb6',
+  f:s=>s[1]>=60&&s[4]>=60, n:'探险家 · 越狱大师',
+  slogan:'门开一条缝，它就出发。',
+  d:'门开一条缝它就出去了。聪明、胆大，需要大量合法的探索出口。'},
+ {code:'SAGE',  kw:['独处型观察者','尊重换信任','不记仇但记得边界','慢热型长期主义'], color:'#7a8aa3', accent:'#dde4ee',
+  f:s=>s[0]<45&&s[1]<45, n:'高冷观察家 · 猫中 INTJ',
+  slogan:'它不爱主动，但它一直看着你。',
+  d:'不主动、不黏人，但它其实一直在看着你。用尊重换信任，效果最好。'},
+ {code:'BUDDY', kw:['情绪稳定','新手友好','不挑人也不挑事','主要负责可爱'], color:'#a3907a', accent:'#ead7b8',
+  f:s=>true, n:'佛系室友 · 情绪稳定担当',
+  slogan:'好养、好相处、没脾气。',
+  d:'好养、好相处、没脾气。你大概率抽到了一只"新手友好型"的猫。'}
+];
+
+/* ==================== 5. 状态 ==================== */
+const CODES=['CAT2024','DEMO','CAT2025'];   // 演示用，正式请改后端校验
+const APP_VER='v2';                         // 数据版本号（清理旧数据用）
+let S={code:'',fname:'',env:{},cats:[],ci:0,ans:[],cur:0,qs:[],done:[]};
+const $=id=>document.getElementById(id);
+const lsKey=()=>'catp_'+S.code;
+function save(){try{localStorage.setItem(lsKey(),JSON.stringify({v:APP_VER,S,exp:EXP}))}catch(e){}}
+let EXP=null;
+function go(p){['consent','info','quiz','mid','result'].forEach(k=>$('p-'+k).classList.toggle('hide',k!==p));window.scrollTo(0,0);}
+
+/* 启动时清理掉旧版本或异常数据，保证「点开就是从零开始」 */
+(function purgeOldData(){
+  try{
+    const keys=Object.keys(localStorage).filter(k=>k.indexOf('catp_')===0);
+    keys.forEach(k=>{try{const o=JSON.parse(localStorage.getItem(k)); if(!o||o.v!==APP_VER) localStorage.removeItem(k);}catch(e){localStorage.removeItem(k);}});
+  }catch(e){}
+})();
+
+/* ---------- 背景悬浮像素元素（全站常驻：随机散布 + 统一尺寸/速度/透明度） ---------- */
+const ELEMS=['小老鼠','小鱼','小球','罐头','小爱心','小星星','猫爪印','毛线球','小鱼干','牛奶盒','纸箱','铃铛','皇冠'];
+const FLOAT_ANIM=['floaty','floaty2','floaty3'];
+function spawnSky(){
+  const sky=$('sky'); if(!sky) return;
+  sky.innerHTML='';
+  const W=window.innerWidth, H=window.innerHeight;
+  const isMobile=W<560;
+  const SIZE=isMobile?30:36;        // 统一尺寸
+  const DUR=7;                      // 统一速度（秒）
+  const OP=0.78;                    // 统一不透明度
+  const cell=isMobile?104:126;      // 平均间距 → 决定密度
+  const minD=isMobile?62:74;        // 最小间距 → 防止元素互相重叠
+  const target=Math.min(130,Math.round(W*H/(cell*cell)));
+
+  /* 随机撒点（dart throwing）：位置完全随机，但不至于叠在一起 */
+  const pts=[]; let guard=0;
+  while(pts.length<target && guard<target*40){
+    guard++;
+    const x=Math.random()*(W-SIZE), y=Math.random()*(H-SIZE);
+    let ok=true;
+    for(let k=0;k<pts.length;k++){
+      const dx=pts[k][0]-x, dy=pts[k][1]-y;
+      if(dx*dx+dy*dy<minD*minD){ok=false;break;}
+    }
+    if(ok) pts.push([x,y]);
+  }
+
+  /* 元素种类用「洗牌袋」轮流取，保证 6 种元素数量均衡又不规则 */
+  const bag=[];
+  function pick(){
+    if(!bag.length){
+      for(let k=0;k<ELEMS.length;k++) bag.push(k);
+      for(let k=bag.length-1;k>0;k--){const j=(Math.random()*(k+1))|0,t=bag[k];bag[k]=bag[j];bag[j]=t;}
+    }
+    return bag.pop();
+  }
+
+  pts.forEach(function(p){
+    const el=document.createElement('img');
+    el.className='floaty';
+    el.src='assets/elements/像素元素-'+ELEMS[pick()]+'.png';
+    el.alt='';
+    el.style.width=SIZE+'px'; el.style.height=SIZE+'px';
+    el.style.left=p[0].toFixed(1)+'px';
+    el.style.top=p[1].toFixed(1)+'px';
+    el.style.opacity=OP;
+    el.style.animationName=FLOAT_ANIM[(Math.random()*FLOAT_ANIM.length)|0];
+    el.style.animationDuration=DUR+'s';
+    el.style.animationDelay=(-Math.random()*DUR).toFixed(2)+'s';  // 随机相位
+    sky.appendChild(el);
+  });
+}
+
+/* ---------- ① 同意书 ---------- */
+$('ck').onchange=e=>$('btn-consent').disabled=!e.target.checked;
+function toInfo(){
+  const c=$('code').value.trim().toUpperCase();
+  if(!c){alert('请输入兑换码');return;}
+  if(!CODES.includes(c)){alert('兑换码无效，请检查后重试');return;}
+  S.code=c;
+  const old=localStorage.getItem(lsKey());
+  if(old){ try{const o=JSON.parse(old); if(o.v===APP_VER && o.S && o.S.cats && o.S.cats.length){S=o.S; EXP=o.exp||null;} }catch(e){} }
+  if(!S.cats||!S.cats.length) S.cats=[{name:'',age:AGE_OPT[2],sex:SEX_OPT[0],breed:BREEDS[0]}];
+  if(!S.env||!Object.keys(S.env).length) S.env={dog:0,cat:0,kid:0,out:0,pet:0};
+  buildInfo(); go('info');
+}
+
+/* ---------- ② 信息页 ---------- */
+function syncPreview(i){
+  const c=S.cats[i]; if(!c) return;
+  const img=$('catprev-'+i), nm=$('catprev-n-'+i), bd=$('catprev-b-'+i);
+  if(img) img.src=catSrc(c.breed);
+  if(nm) nm.textContent=c.name?c.name:'你的小猫咪';
+  if(bd) bd.textContent=c.breed;
+}
+function buildInfo(){
+  $('fname').value=S.fname||'';
+  const box=$('catlist'); box.innerHTML='';
+  S.cats.forEach((c,i)=>{
+    box.insertAdjacentHTML('beforeend',
+     '<div class="catcard"><h3>猫咪 '+(i+1)+(S.cats.length>1?'　<a href="javascript:;" style="float:right;color:#a3907a;font-weight:400;font-size:13px" onclick="delCat('+i+')">移除</a>':'')+'</h3>'+
+     '<div class="catprev"><div class="catprev-box"><img id="catprev-'+i+'" src="'+catSrc(c.breed)+'" alt=""></div>'+
+     '<div class="catprev-name" id="catprev-n-'+i+'"></div><div class="catprev-breed" id="catprev-b-'+i+'"></div></div>'+
+     '<div class="fld"><label>名字</label><input type="text" data-c="'+i+'" data-f="name" value="'+(c.name||'')+'" placeholder="例如：科科"></div>'+
+     '<div class="two"><div class="fld"><label>年龄</label><select data-c="'+i+'" data-f="age">'+AGE_OPT.map(a=>'<option'+(a===c.age?' selected':'')+'>'+a+'</option>').join('')+'</select></div>'+
+     '<div class="fld"><label>性别</label><select data-c="'+i+'" data-f="sex">'+SEX_OPT.map(a=>'<option'+(a===c.sex?' selected':'')+'>'+a+'</option>').join('')+'</select></div></div>'+
+     '<div class="fld" style="margin-bottom:0"><label>品种（选好后上方会显示它的像素形象）</label><div class="breed-search"><input type="text" class="breed-search-inp" data-c="'+i+'" placeholder="搜索品种…（输入「折耳」「卷毛」「英短」试试）"><span class="breed-search-tip" data-tip="'+i+'">'+BREEDS.length+' / '+BREEDS.length+'</span><button type="button" class="breed-search-clr" data-clr="'+i+'" title="清除搜索">×</button></div><select data-c="'+i+'" data-f="breed">'+BREEDS.map(a=>'<option'+(a===c.breed?' selected':'')+'>'+a+'</option>').join('')+'</select></div></div>');
+    syncPreview(i);
+  });
+  $('btn-addcat').classList.toggle('hide',S.cats.length>=2);
+  box.querySelectorAll('input,select').forEach(el=>{
+    el.onchange=el.oninput=()=>{S.cats[+el.dataset.c][el.dataset.f]=el.value;syncPreview(+el.dataset.c);save();};
+  });
+  document.querySelectorAll('.seg').forEach(seg=>{
+    const k=seg.dataset.k;
+    seg.querySelectorAll('div').forEach(d=>{
+      d.classList.toggle('on',String(S.env[k])===d.dataset.v);
+      d.onclick=()=>{S.env[k]=+d.dataset.v;buildInfo();save();};
+    });
+  });
+  const skipped=Q.filter(q=>q.cond&&!S.env[q.cond]).length;
+  $('skipinfo').innerHTML='根据你家的情况，已自动跳过 <b style="color:#e2762a">'+skipped+'</b> 道不适用的题目，本家庭需作答 <b style="color:#e2762a">'+(Q.length-skipped)+'</b> 题。';
+  // 品种搜索：实时过滤当前卡片的 select options
+  box.querySelectorAll('.breed-search').forEach(wrap=>{
+    const inp=wrap.querySelector('.breed-search-inp');
+    const tip=wrap.querySelector('.breed-search-tip');
+    const clr=wrap.querySelector('.breed-search-clr');
+    const sel=wrap.parentElement.querySelector('select[data-f="breed"]');
+    const apply=(q)=>{
+      q=(q||'').trim().toLowerCase();
+      const cur=sel.value;
+      const list=q?BREEDS.filter(b=>{
+        const inName=b.toLowerCase().includes(q);
+        const inAlias=(BREED_ALIAS[b]||[]).some(a=>a.toLowerCase().includes(q));
+        return inName||inAlias;
+      }):BREEDS.slice();
+      // 始终保留当前已选项（即使被过滤掉），避免误清空
+      const opts=list.map(b=>'<option'+(b===cur?' selected':'')+'>'+b+'</option>').join('')||('<option disabled>没有匹配的品种</option>');
+      sel.innerHTML=opts+(list.indexOf(cur)<0 && cur?'<option selected>'+cur+'</option>':'');
+      tip.textContent=list.length+' / '+BREEDS.length+(q?' · 关键词：'+q:'');
+      wrap.classList.toggle('is-active',!!q);
+    };
+    inp.oninput=()=>apply(inp.value);
+    clr.onclick=()=>{inp.value='';apply('');inp.focus();};
+    apply('');
+  });
+}
+$('fname').oninput=e=>{S.fname=e.target.value;save();};
+function addCat(){ if(S.cats.length>=2)return; S.cats.push({name:'',age:AGE_OPT[2],sex:SEX_OPT[0],breed:BREEDS[0]}); buildInfo(); save(); }
+function delCat(i){ S.cats.splice(i,1); buildInfo(); save(); }
+
+/* ---------- ③ 答题 ---------- */
+function toQuiz(){
+  for(let i=0;i<S.cats.length;i++){
+    if(!S.cats[i].name.trim()){alert('请填写猫咪 '+(i+1)+' 的名字');return;}
+  }
+  S.qs=S.cats.map(()=>Q.filter(q=>!q.cond||S.env[q.cond]));
+  if(!S.ans||!S.ans.length) S.ans=S.cats.map(q=>new Array(q.length).fill(null));
+  else S.ans=S.ans.map((a,i)=>(a&&a.length===S.qs[i].length)?a:new Array(S.qs[i].length).fill(null));
+  S.done=[]; startCat(0);
+}
+function startCat(i){
+  S.ci=i; S.cur=0; save();
+  if(S.done[i]){ render(); go('quiz'); return; }
+  render(); go('quiz');
+}
+function render(){
+  const qs=S.qs[S.ci], q=qs[S.cur], cat=S.cats[S.ci];
+  $('qmeta').textContent='第 '+(S.cur+1)+' / '+qs.length+' 题';
+  $('qcat').textContent=cat.name;
+  $('qcat-img').src=catSrc(cat.breed);
+  $('qbar').style.width=((S.cur+1)/qs.length*100)+'%';
+  $('qtext').textContent=q.t;
+  $('qhint').textContent=q.e?'提示：'+q.e:'';
+  $('btn-prev').classList.toggle('hide',S.cur===0);
+  const isLast = S.cur===qs.length-1;
+  $('btn-next').textContent = isLast ? '🎉 完成，查看报告' : '下一题';
+  $('btn-next').classList.toggle('final', isLast);
+  const box=$('opts'); box.innerHTML='';
+  OPTS.forEach((o,i)=>{
+    const el=document.createElement('div');
+    el.className='opt'+(S.ans[S.ci][S.cur]===i?' on':'');
+    el.innerHTML='<span class="dot"></span><span>'+o+'</span>';
+    el.onclick=()=>{S.ans[S.ci][S.cur]=i;render();save();};
+    box.appendChild(el);
+  });
+}
+function next(){
+  const qs=S.qs[S.ci];
+  if(S.ans[S.ci][S.cur]==null){alert('请先选择一个选项');return;}
+  if(S.cur<qs.length-1){S.cur++;render();save();}
+  else{ S.done[S.ci]=true; save();
+    if(S.ci<S.cats.length-1){
+      $('mid-name').textContent=S.cats[S.ci].name;
+      $('mid-sub').textContent='已经完成 '+qs.length+' 道题。接下来可以继续测 '+S.cats[S.ci+1].name+'，也可以先看看 '+S.cats[S.ci].name+' 的报告。';
+      $('btn-mid-next').textContent='继续测 '+S.cats[S.ci+1].name;
+      go('mid');
+    } else finishAll();
+  }
+}
+function prev(){ if(S.cur>0){S.cur--;render();save();} }
+
+/* ---------- 计分 ---------- */
+function score(i){
+  const qs=S.qs[i],raw=[0,0,0,0,0,0],cnt=[0,0,0,0,0,0];
+  qs.forEach((q,k)=>{ let v=S.ans[i][k]; if(v==null)v=0; if(q.r)v=4-v; raw[q.d]+=v; cnt[q.d]++; });
+  return raw.map((r,k)=>cnt[k]?Math.round(r/(cnt[k]*4)*100):50);
+}
+const avgOf=b=>BREED_AVG[b]||DEFAULT_AVG;
+const lv=v=>v<34?0:(v<=66?1:2);
+const LVN=['偏低','中等','偏高'];
+
+/* ---------- ⑤ 报告 ---------- */
+let CUR=0;
+function p2(n){return n<10?'0'+n:''+n;}
+function finishAll(){
+  try{
+    const done=S.cats.map((c,i)=>S.done[i]?score(i):null).filter(Boolean);
+    if(!done.length){alert('还没有完成的测试');return;}
+    if(!EXP){EXP=Date.now()+864e5;save();}
+    if(EXP<Date.now()){showExpired();return;}
+    buildResult();
+    go('result');
+    // 入场动画：从题目到报告的第一次切换才放；CUR 切换 / 刷新不算
+    playIntro(CUR);
+  }catch(e){
+    console.error('[finishAll error]', e);
+    alert('生成报告时出错：' + (e && e.message ? e.message : e));
+  }
+}
+
+/* ---------- ⑤-1 报告入场动画 / 人格揭晓 ---------- */
+let introTimer=null;
+function playIntro(catIndex){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    // 用户选择减少动效，直接展示报告
+    return;
+  }
+  const s=score(catIndex), t=TYPES.find(x=>x.f(s));
+  if(!t) return;
+  const el=$('intro'), stars=$('intro-stars'), img=$('intro-img'), type=$('intro-type'), slogan=$('intro-slogan'), kw=$('intro-kw');
+  img.src=TYPEIMG[t.code];
+  type.textContent=t.n;
+  slogan.textContent=t.slogan;
+  kw.innerHTML=t.kw.map(k=>'<span>'+k+'</span>').join('');
+  // 星星：在屏幕随机位置撒 24 颗，分两波出现
+  stars.innerHTML='';
+  for(let i=0;i<24;i++){
+    const sp=document.createElement('span');
+    sp.className='intro-star';
+    sp.style.left=(Math.random()*100)+'%';
+    sp.style.top=(Math.random()*100)+'%';
+    sp.style.animationDelay=(0.2+Math.random()*1.4)+'s';
+    sp.style.animationDuration=(0.35+Math.random()*0.35)+'s';
+    stars.appendChild(sp);
+  }
+  // 重新触发入场
+  el.classList.remove('out');
+  el.classList.add('on');
+  el.style.display='flex';
+  // 关闭动画只有 2 个方式：点显式按钮 / 按 Enter 或 Esc。
+  // 不再响应"点击屏幕任意处"——避免误触。
+  clearTimeout(introTimer); introTimer=null;
+  const skip=()=>{ clearTimeout(introTimer); introTimer=null; fadeOutIntro(); };
+  el.onkeydown=e=>{ if(e.key==='Enter'||e.key==='Escape') skip(); };
+  const goBtn=$('intro-go'); if(goBtn) goBtn.onclick=skip;
+}
+function fadeOutIntro(){
+  const el=$('intro');
+  if(!el.classList.contains('on')) return;
+  el.classList.remove('on');
+  el.classList.add('out');
+  el.onclick=null; el.onkeydown=null;
+  const goBtn=$('intro-go'); if(goBtn) goBtn.onclick=null;
+  setTimeout(()=>{
+    el.classList.remove('out','stay');
+    el.style.display='none';
+  },480);
+}
+function showExpired(){
+  document.querySelector('.wrap').innerHTML='<div class="card" style="text-align:center"><h1>报告已过期</h1>'+
+   '<div class="sub">每份报告的有效期为生成后 24 小时。如需重新查看，请使用新的兑换码再次测试。</div></div>';
+  window.scrollTo(0,0);
+}
+function buildResult(){
+  CUR=CUR<S.cats.length?CUR:0;
+  const doneIdx=S.cats.map((c,i)=>i).filter(i=>S.done[i]);
+  const multi=doneIdx.length>1;
+  $('cmp-card').classList.toggle('hide',!multi);
+  $('lg-cmp').classList.toggle('hide',!multi);
+  const tabs=$('tabs');
+  if(multi){
+    tabs.classList.remove('hide');
+    tabs.innerHTML=doneIdx.map(i=>'<div class="'+(i===CUR?'on':'')+'" onclick="CUR='+i+';buildResult()">'+S.cats[i].name+'</div>').join('');
+  } else { tabs.classList.add('hide'); tabs.innerHTML=''; }
+  const cat=S.cats[CUR], s=score(CUR), a=avgOf(cat.breed);
+  $('r-catimg').src=catSrc(cat.breed);
+  $('r-title').textContent=cat.name+' 的猫格报告';
+  $('r-sub').textContent=(S.fname?S.fname+' · ':'')+cat.age+' · '+cat.sex+' · '+cat.breed;
+  const t=TYPES.find(x=>x.f(s));
+  $('r-type').textContent=t.n; $('r-typedesc').textContent=t.d;
+
+  let html='';
+  DIMS.forEach((d,i)=>{
+    const L=lv(s[i]), r=REPORT[i], txt=[r.l,r.m,r.h][L], adv=[r.l[1],r.m[1],r.h[1]][L];
+    const diff=s[i]-a[i];
+    const w = diff>=10?['明显高于','+']:diff>=5?['略高于','+']:diff>-5?['基本持平于','']:diff>-10?['略低于','']:['明显低于',''];
+    html+='<div class="dim"><div class="dh"><span class="dn"><img class="dicon" src="assets/icons/'+DIMICON[i]+'.svg" alt="">'+d.n+'<span class="lv">'+LVN[L]+'</span></span><span class="ds">'+s[i]+'</span></div>'+
+      '<div class="dbar"><i style="width:'+s[i]+'%"></i></div>'+
+      '<div class="cmp">'+cat.name+' 在这一项得到 <b>'+s[i]+' 分</b>，'+w[0]+'同品种的平均水平（'+a[i]+' 分'+(w[1]?'，'+w[1]+Math.abs(diff):'')+'）。</div>'+
+      '<div class="dtxt" style="color:#a3907a;font-size:12.5px;margin-bottom:7px">'+d.d+'</div>'+
+      '<div class="dtxt">'+txt[0]+'</div><div class="adv"><b>可以试试：</b>'+adv+'</div></div>';
+  });
+  $('dims').innerHTML=html;
+
+  const risk=DIMS.map((d,i)=>({i,v:d.good?100-s[i]:s[i]})).sort((x,y)=>y.v-x.v);
+  // 第 1 条：风险最高维度的具体动作
+  const tip1=[REPORT[risk[0].i].l,REPORT[risk[0].i].m,REPORT[risk[0].i].h][lv(s[risk[0].i])][1];
+  // 第 2 条：AAFP/ISFM 五项基本生活需求，按风险最高维定向推荐最相关的一项
+  const pillarFix=[
+   '给它留一个随时可躲、气味熟悉的安全角落（高一点、有遮挡）；家里有变动时，这个角落不要动。',
+   '检查所有"关键资源"是否充足且彼此分开：食盆 / 水盆 / 猫砂盆 / 抓板 / 玩耍区 / 休息区，每一项至少有 2 个位置、放在不同房间。多猫家庭请按"猫的数量 +1"准备。',
+   '每天至少两次、每次 10–15 分钟的猎食游戏，结束于"追逐 → 扑到 → 吃到东西"的完整循环；玩具每周轮换，避免腻烦。',
+   '所有互动让猫"自己决定开始和结束"；抚摸的位置优先脸颊和下巴，肚子不主动碰。',
+   '别把它的"脸蹭过的地方"擦得太勤；猫砂别用太香型；新进家具先用沾了它气味的毛巾擦一擦。'
+  ];
+  // 6 个维度各自对应哪一项 pillar 最有指导价值
+  const dimToPillar={0:3, 1:0, 2:3, 3:3, 4:2, 5:1};
+  // 取不与最大风险维度相同的第二大风险维度（极端情况：所有维度分数相同）
+  const secondRisk=risk.find(r=>r.i!==risk[0].i);
+  const p1=dimToPillar[risk[0].i], p1b=secondRisk?dimToPillar[secondRisk.i]:-1;
+  const tip2='<b>环境参考（AAFP/ISFM 五项基本生活需求）：</b>'+
+    '对你这一项来说，最相关的是第 <b>'+(p1+1)+'</b> 条——'+pillarFix[p1]+
+    (p1b>=0 && p1b!==p1 ? ' 另外，第 <b>'+(p1b+1)+'</b> 条也跟你的情况有点关系——'+pillarFix[p1b] : '');
+  // 第 3 条：Heath 检查 3 问 + 两周观察记录
+  const tip3='<b>如果你接下来两周观察到任何让你担心的小变化，</b>先问自己三个问题（Heath, 2018）：'+
+    '① 它现在这个情绪，情境里有没有"合理原因"？② 它这个反应，跟情绪匹配吗？③ 反应的强度和持续时间，是不是有点过了？'+
+    '任何一条答"是"，都建议带它去看一次兽医。顺便在那两周里记一下：什么时候发生、发生前发生了什么、之后它怎么收场——带着这份记录去看兽医，比空手去高效得多。';
+  $('r-tips').innerHTML=[tip1,tip2,tip3].map(x=>'<li>'+x+'</li>').join('');
+
+  const d=new Date(EXP);
+  $('expire-note').innerHTML='提醒：<b>这份报告将在 '+d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())+' '+p2(d.getHours())+':'+p2(d.getMinutes())+' 失效</b>（生成后 24 小时）。<br>请用截图，或点击报告底部的「保存为 PDF」把它存下来哦～';
+
+  const other = (multi && S.done[1-CUR]) ? score(1-CUR) : null;
+  drawRadar($('radar'),{s:s,avg:a,cmp:other,hoverEl:$('tip')});
+  if(multi && other){
+    $('lg-a').textContent=S.cats[CUR].name; $('lg-b').textContent=S.cats[1-CUR].name;
+    drawRadar($('radar2'),{s:s,cmp:other,hoverEl:$('tip2'),names:[S.cats[CUR].name,S.cats[1-CUR].name]});
+    const far=DIMS.map((d,i)=>({i,v:Math.abs(s[i]-other[i])})).sort((x,y)=>y.v-x.v);
+    $('cmp-text').textContent=S.cats[CUR].name+' 和 '+S.cats[1-CUR].name+' 差别最大的地方是「'+DIMS[far[0].i].n+'」（相差 '+far[0].v+' 分）：'+
+      (s[far[0].i]>other[far[0].i]?S.cats[CUR].name+' 在这一点上表现得更明显，':S.cats[1-CUR].name+' 在这一点上表现得更明显，')+
+      '相处的时候可以多为'+[S.cats[CUR].name,S.cats[1-CUR].name][s[far[0].i]>other[far[0].i]?1:0]+'考虑一下这一点。';
+  }
+}
+function restart(){ if(confirm('确定要清空当前数据、重新测试吗？')){localStorage.removeItem(lsKey());location.reload();} }
+
+/* ---------- 雷达图（Canvas · 像素配色） ---------- */
+function drawRadar(cv,o){
+  const s=o.s, a=o.avg, cmp=o.cmp, tip=o.hoverEl;
+  const dpr=window.devicePixelRatio||1, W=cv.clientWidth||340, H=cv.clientHeight||340;
+  cv.width=W*dpr; cv.height=H*dpr;
+  const ctx=cv.getContext('2d'); ctx.scale(dpr,dpr);
+  const cx=W/2, cy=H/2, R=Math.min(W,H)/2-46, n=6;
+  const ang=i=>-Math.PI/2+i*2*Math.PI/n;
+  const pt=(i,v)=>[cx+R*Math.max(v,3)/100*Math.cos(ang(i)), cy+R*Math.max(v,3)/100*Math.sin(ang(i))];
+  let hover=-1;
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(let l=5;l>=1;l--){
+      ctx.beginPath();
+      for(let i=0;i<n;i++){const[x,y]=pt(i,l*20); i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+      ctx.closePath(); ctx.fillStyle=l%2?'#fdf1d9':'#fff8e7'; ctx.fill();
+      ctx.strokeStyle='#e3d2b8'; ctx.lineWidth=1.5; ctx.stroke();
+    }
+    ctx.strokeStyle='#e3d2b8'; ctx.lineWidth=1.5;
+    for(let i=0;i<n;i++){const[x,y]=pt(i,100);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(x,y);ctx.stroke();}
+    if(a){
+      ctx.beginPath();
+      for(let i=0;i<n;i++){const[x,y]=pt(i,a[i]); i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+      ctx.closePath(); ctx.setLineDash([5,5]); ctx.strokeStyle='#a3907a'; ctx.lineWidth=2; ctx.stroke(); ctx.setLineDash([]);
+    }
+    if(cmp){
+      ctx.beginPath();
+      for(let i=0;i<n;i++){const[x,y]=pt(i,cmp[i]); i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+      ctx.closePath(); ctx.fillStyle='rgba(111,195,232,.28)'; ctx.fill();
+      ctx.strokeStyle='#6fc3e8'; ctx.lineWidth=3; ctx.stroke();
+    }
+    ctx.beginPath();
+    for(let i=0;i<n;i++){const[x,y]=pt(i,s[i]); i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+    ctx.closePath();
+    ctx.fillStyle='rgba(255,155,69,.42)'; ctx.fill();
+    ctx.strokeStyle='#e2762a'; ctx.lineWidth=3; ctx.lineJoin='miter'; ctx.stroke();
+    // 像素方块数据点
+    for(let i=0;i<n;i++){
+      const[x,y]=pt(i,s[i]), k=i===hover?5:3.5;
+      ctx.fillStyle=i===hover?'#ffd35c':'#e2762a';
+      ctx.fillRect(Math.round(x-k),Math.round(y-k),k*2,k*2);
+      ctx.strokeStyle='#2b2118'; ctx.lineWidth=2;
+      ctx.strokeRect(Math.round(x-k),Math.round(y-k),k*2,k*2);
+    }
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    for(let i=0;i<n;i++){
+      const r0=R+26, x=cx+r0*Math.cos(ang(i)), y=cy+r0*Math.sin(ang(i));
+      ctx.font='700 13px "Zpix","PingFang SC",sans-serif'; ctx.fillStyle=i===hover?'#e2762a':'#3b2f24';
+      ctx.fillText(DIMS[i].n,x,y-6);
+      ctx.font='700 12px "Zpix",sans-serif'; ctx.fillStyle='#e2762a';
+      ctx.fillText(s[i]+' 分',x,y+9);
+    }
+  }
+  draw();
+  cv.onmousemove=cv.ontouchmove=e=>{
+    const r=cv.getBoundingClientRect();
+    const px=(e.touches?e.touches[0].clientX:e.clientX)-r.left, py=(e.touches?e.touches[0].clientY:e.clientY)-r.top;
+    const dx=px-cx, dy=py-cy, dist=Math.hypot(dx,dy);
+    let best=-1;
+    if(dist<R*1.25){
+      let ang2=Math.atan2(dy,dx)+Math.PI/2; if(ang2<0)ang2+=Math.PI*2;
+      best=Math.round(ang2/(Math.PI*2/n))%n;
+    }
+    if(best!==hover){ hover=best; draw(); }
+    if(hover>=0 && dist<R*1.25){
+      const names=o.names||[null,null];
+      let h='<b>'+DIMS[hover].n+'</b><br>'+(names[0]||'你家猫')+'：'+s[hover]+' 分';
+      if(a) h+='<br>同品种平均：'+a[hover]+' 分（'+(s[hover]>=a[hover]?'+':'')+(s[hover]-a[hover])+'）';
+      if(cmp) h+='<br>'+(names[1]||'另一只猫')+'：'+cmp[hover]+' 分';
+      tip.innerHTML=h; tip.classList.add('on');
+      const[x,y]=pt(hover,s[hover]);
+      tip.style.left=(cv.offsetLeft+x)+'px';
+      tip.style.top=(cv.offsetTop+y-8)+'px';
+    } else tip.classList.remove('on');
+  };
+  cv.onmouseleave=cv.ontouchend=()=>{hover=-1;draw();tip.classList.remove('on');};
+}
+
+/* ---------- 启动 ---------- */
+spawnSky();
+window.addEventListener('resize',()=>{clearTimeout(window.__rz);window.__rz=setTimeout(spawnSky,300)});
+window.addEventListener('error', e=>{
+  // 全局兜底：把未捕获错误浮到一个角落，比打开 dev console 友好
+  try{
+    let box=document.getElementById('err-toast');
+    if(!box){
+      box=document.createElement('div');
+      box.id='err-toast';
+      box.style.cssText='position:fixed;left:8px;bottom:8px;max-width:60vw;padding:8px 10px;background:#2b2118;color:#fff8e7;font:12px/1.4 "Zpix",monospace;border:3px solid #e2762a;box-shadow:3px 3px 0 rgba(0,0,0,.2);z-index:99999;white-space:pre-wrap;cursor:pointer';
+      box.onclick=()=>{box.style.display='none'};
+      document.body.appendChild(box);
+    }
+    box.textContent='[出错了] '+(e.error && e.error.message || e.message || e)+'\n（点这里关掉）';
+    box.style.display='block';
+  }catch(_){}
+});
+</script>
+
+<!-- 报告入场动画 / 人格揭晓 -->
+<div id="intro" class="intro" aria-hidden="true">
+  <div class="intro-stars" id="intro-stars"></div>
+  <div class="intro-card">
+    <div class="intro-frame" id="intro-frame">
+      <img id="intro-img" class="intro-cat" src="" alt="">
+      <div class="intro-shine"></div>
+    </div>
+    <div class="intro-type" id="intro-type"></div>
+    <div class="intro-slogan" id="intro-slogan"></div>
+    <div class="intro-kw" id="intro-kw"></div>
+    <button class="btn intro-go" id="intro-go">打开报告 →</button>
+    <div class="intro-hint">或按回车 / Esc 打开报告</div>
+  </div>
+</div>
+
+</body>
+</html>
