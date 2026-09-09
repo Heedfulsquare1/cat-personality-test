@@ -225,7 +225,7 @@ canvas{width:100%;height:340px;max-width:380px;display:block;margin:0 auto;touch
     <b data-page-node-id="9rU46S0AW0mjtBhBdFqi8N">3. 请优先关注健康</b><br data-page-node-id="rMMAWhd6mEPUnhlZiFWQC9">
     如果猫咪出现<b data-page-node-id="2ED8wQSBZ9FinoTDafSfs9">突然的性格或行为改变</b>（突然攻击、突然乱尿、食欲骤变、过度舔毛），请<b data-page-node-id="xJ1UCH7I6U9d49oIrAArBL">先带它去看兽医</b>——在动物行为学里，超过一半的"行为问题"最初其实都是慢性疼痛在喊救命，猫很会忍着不表现出来。<br data-page-node-id="wLSfe1I79MjdO3J2ur9IJV"><br data-page-node-id="dd2bfcEM5TyMM8izex8BXl">
     <b data-page-node-id="ekoEi1LuvN162Q6YX9opbK">4. 有效期</b><br data-page-node-id="eleMbo863I5vtAHHZ47gui">
-    报告自生成起 <b data-page-node-id="vGiIathCmJQRGRxQEE6lwX">24 小时后失效</b>，请务必及时截图或导出 PDF 保存。
+    报告自生成起 <b data-page-node-id="vGiIathCmJQRGRxQEE6lwX">24 小时后失效</b>，请务必及时保存图片或分享给朋友。
   </div>
   <label class="row" data-page-node-id="HTTanskNOncN5XIjvkV9H9"><input type="checkbox" id="ck" style="margin-top:5px" data-page-node-id="yJsZypvtEQ9TE0OtFgrm1I">
     <span data-page-node-id="gIU0kAzJMhw8oQbBOfEzkQ">我已认真阅读并同意以上全部条款，理解本测试不构成医疗或行为诊断建议。</span></label>
@@ -309,7 +309,8 @@ canvas{width:100%;height:340px;max-width:380px;display:block;margin:0 auto;touch
   <div class="card" data-page-node-id="zcvVHoR41MTeenebO11Nht">
     <h2 data-page-node-id="Fitjri2byPIWXRwdev07HS">给你的 3 条行动建议</h2>
     <div class="tips" data-page-node-id="CcnxjH4N49k4vrQYpVDtgD"><ol id="r-tips" data-page-node-id="GdtOjilYuy88NI5oIJE6BN"></ol></div>
-    <button class="btn" onclick="window.print()" data-page-node-id="eqnE5rmsOY1uHPM1uNOilH">保存为 PDF / 打印</button>
+    <button class="btn" id="btn-save-img" onclick="saveImage()" data-page-node-id="eqnE5rmsOY1uHPM1uNOilH">保存图片</button>
+    <button class="btn ghost" id="btn-share" onclick="shareImage()" data-page-node-id="xShareBtn">分享到微信 / 小红书 / 抖音</button>
     <button class="btn ghost" onclick="restart()" data-page-node-id="tEI383ZbBxlsr8tQw0DI69">再测一次</button>
   </div>
   <div class="foot" data-page-node-id="cwkFZWb0y3mCJdGBhwheC6">
@@ -940,7 +941,7 @@ function buildResult(){
   $('r-tips').innerHTML=[tip1,tip2,tip3].map(x=>'<li>'+x+'</li>').join('');
 
   const d=new Date(EXP);
-  $('expire-note').innerHTML='提醒：<b>这份报告将在 '+d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())+' '+p2(d.getHours())+':'+p2(d.getMinutes())+' 失效</b>（生成后 24 小时）。<br>请用截图，或点击报告底部的「保存为 PDF」把它存下来哦～';
+  $('expire-note').innerHTML='提醒：<b>这份报告将在 '+d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())+' '+p2(d.getHours())+':'+p2(d.getMinutes())+' 失效</b>（生成后 24 小时）。<br>请点击报告底部的「保存图片」或「分享」，把它存下来或发给朋友哦～';
 
   const other = (multi && S.done[1-CUR]) ? score(1-CUR) : null;
   drawRadar($('radar'),{s:s,avg:a,cmp:other,hoverEl:$('tip')});
@@ -954,6 +955,84 @@ function buildResult(){
   }
 }
 function restart(){ if(confirm('确定要清空当前数据、重新测试吗？')){localStorage.removeItem(lsKey());location.reload();} }
+
+/* ---------- 一键保存图片 / 分享 ---------- */
+const H2C_CDNS=[
+  'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js',
+  'https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
+];
+let _h2cLoading=null;
+function ensureH2C(){
+  if(window.html2canvas) return Promise.resolve(window.html2canvas);
+  if(_h2cLoading) return _h2cLoading;
+  _h2cLoading=(async()=>{
+    for(const url of H2C_CDNS){
+      try{
+        await new Promise((res,rej)=>{
+          const s=document.createElement('script');
+          s.src=url; s.onload=res; s.onerror=rej;
+          document.head.appendChild(s);
+        });
+        if(window.html2canvas) return window.html2canvas;
+      }catch(e){}
+    }
+    throw new Error('截图库加载失败，请检查网络');
+  })();
+  return _h2cLoading;
+}
+async function captureReport(){
+  const h2c=await ensureH2C();
+  const el=document.getElementById('p-result');
+  return await h2c(el,{
+    backgroundColor:'#f6e7cc',
+    scale: Math.max(2, Math.min(3, window.devicePixelRatio||1)),
+    useCORS:true, logging:false,
+    windowWidth: el.scrollWidth, windowHeight: el.scrollHeight
+  });
+}
+function setBtnLoading(on){
+  const a=$('btn-save-img'), b=$('btn-share');
+  if(a){a.disabled=on; a.textContent= on?'生成中…':'保存图片';}
+  if(b){b.disabled=on; b.textContent= on?'生成中…':'分享到微信 / 小红书 / 抖音';}
+}
+async function saveImage(){
+  setBtnLoading(true);
+  try{
+    const canvas=await captureReport();
+    const name=(S.cats[CUR]&&S.cats[CUR].name?S.cats[CUR].name:'猫咪')+'-猫格报告.png';
+    await new Promise(res=>canvas.toBlob(b=>{
+      const url=URL.createObjectURL(b);
+      const a=document.createElement('a'); a.href=url; a.download=name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),2000);
+      res();
+    },'image/png'));
+  }catch(e){ alert('保存失败：'+(e&&e.message||e)); }
+  finally{ setBtnLoading(false); }
+}
+async function shareImage(){
+  setBtnLoading(true);
+  try{
+    const canvas=await captureReport();
+    const blob=await new Promise(res=>canvas.toBlob(res,'image/png'));
+    const file=new File([blob],'猫格报告.png',{type:'image/png'});
+    const data={ title:'我的猫咪性格报告', text:'快来看看我家主子的猫格类型！🐱', files:[file] };
+    if(navigator.canShare && navigator.canShare(data)){ await navigator.share(data); }
+    else if(navigator.share){ await navigator.share({title:data.title,text:data.text}); }
+    else { // 不支持系统分享：先存到本地，提示去相册分享
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a'); a.href=url; a.download='猫格报告.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),2000);
+      alert('已为你保存图片，可到相册里分享到微信 / 小红书 / 抖音～');
+    }
+  }catch(e){
+    if(e&&e.name==='AbortError') return; // 用户取消分享
+    alert('分享失败：'+(e&&e.message||e));
+  }
+  finally{ setBtnLoading(false); }
+}
 
 /* ---------- 雷达图（Canvas · 像素配色） ---------- */
 function drawRadar(cv,o){
