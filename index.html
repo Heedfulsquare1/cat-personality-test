@@ -306,6 +306,23 @@ canvas{width:100%;height:340px;max-width:380px;display:block;margin:0 auto;touch
     <div class="legend" data-page-node-id="EbDCjtzUqt5P6ZRwREREcv"><span data-page-node-id="C5ngOdCQGCUNtNDGsB73zi"><i class="c" data-page-node-id="OPJa64CorwXUaCqQCiNFAL"></i><span id="lg-a" data-page-node-id="DF6F0fKJITVpCDmiOvegis"></span></span><span data-page-node-id="FC5x99KPzP5m1Dz2Q7sSQX"><i style="border-color:#e2a05f" data-page-node-id="eJ2BVVq7q5WXMCGBhQswSA"></i><span id="lg-b" data-page-node-id="0N7JGc2dnBvb92tvLFG8LB"></span></span></div>
     <div class="dtxt" id="cmp-text" style="margin-top:12px" data-page-node-id="ecNBDSnX869HtTBZEEj7KO"></div>
   </div>
+  <div class="card" id="meme-wrap" style="padding:14px 16px">
+    <h2 style="text-align:center;margin:2px 0 10px">你的专属猫格纪念卡</h2>
+    <div id="mem-card" style="position:relative;background:#fff7e8;border:4px solid #d9b98a;border-radius:16px;padding:18px 16px 0;max-width:340px;margin:0 auto;overflow:hidden;">
+      <div style="position:absolute;top:10px;left:12px;color:#f2c14e;font-size:18px;">★</div>
+      <div style="position:absolute;top:12px;right:12px;color:#e8889a;font-size:16px;">♥</div>
+      <div style="text-align:center;color:#8a7a63;font-size:14px;margin-bottom:8px;">你测出的猫格是</div>
+      <img id="mem-img" src="" alt="" style="display:block;width:150px;height:150px;margin:0 auto;border-radius:14px;image-rendering:pixelated;background:#f3e6cd;">
+      <div id="mem-name" style="text-align:center;color:#e07a3f;font-size:26px;font-weight:600;margin:10px 0 4px;"></div>
+      <div id="mem-slogan" style="text-align:center;color:#6b5a45;font-size:13px;line-height:1.5;margin:0 8px 8px;"></div>
+      <div id="mem-meta" style="text-align:center;color:#a3907a;font-size:12px;margin-bottom:12px;"></div>
+      <div style="background:#8bbf6a;color:#fff;text-align:center;font-size:13px;padding:12px;margin:0 -16px;">Cat Personality · 猫格鉴定完成</div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:12px;">
+      <button class="btn" id="btn-save-mem" onclick="saveMemCard()" style="flex:1">保存纪念卡</button>
+      <button class="btn ghost" id="btn-share-mem" onclick="shareMemCard()" style="flex:1">分享纪念卡</button>
+    </div>
+  </div>
   <div class="card" data-page-node-id="zcvVHoR41MTeenebO11Nht">
     <h2 data-page-node-id="Fitjri2byPIWXRwdev07HS">给你的 3 条行动建议</h2>
     <div class="tips" data-page-node-id="CcnxjH4N49k4vrQYpVDtgD"><ol id="r-tips" data-page-node-id="GdtOjilYuy88NI5oIJE6BN"></ol></div>
@@ -902,6 +919,17 @@ function buildResult(){
   const t=TYPES.find(x=>x.f(s));
   $('r-type').textContent=t.n; $('r-typedesc').textContent=t.d;
 
+  // 猫格纪念卡（彩蛋）
+  const memImg=$('mem-img'), memName=$('mem-name'), memSlogan=$('mem-slogan'), memMeta=$('mem-meta');
+  if(memImg){
+    memImg.src=TYPEIMG[t.code];
+    memName.textContent=t.n;
+    memSlogan.textContent=t.slogan;
+    const dd=new Date();
+    const ds=dd.getFullYear()+'.'+p2(dd.getMonth()+1)+'.'+p2(dd.getDate());
+    memMeta.textContent=(S.fname?S.fname+' · ':'')+cat.name+' · '+ds;
+  }
+
   let html='';
   DIMS.forEach((d,i)=>{
     const L=lv(s[i]), r=REPORT[i], txt=[r.l,r.m,r.h][L], adv=[r.l[1],r.m[1],r.h[1]][L];
@@ -981,15 +1009,58 @@ function ensureH2C(){
   })();
   return _h2cLoading;
 }
-async function captureReport(){
+async function captureEl(el){
   const h2c=await ensureH2C();
-  const el=document.getElementById('p-result');
   return await h2c(el,{
-    backgroundColor:'#f6e7cc',
+    backgroundColor: getComputedStyle(el).backgroundColor || '#fff7e8',
     scale: Math.max(2, Math.min(3, window.devicePixelRatio||1)),
     useCORS:true, logging:false,
     windowWidth: el.scrollWidth, windowHeight: el.scrollHeight
   });
+}
+async function captureReport(){ return captureEl(document.getElementById('p-result')); }
+
+function setMemLoading(on){
+  const a=$('btn-save-mem'), b=$('btn-share-mem');
+  if(a){a.disabled=on; a.textContent= on?'生成中…':'保存纪念卡';}
+  if(b){b.disabled=on; b.textContent= on?'生成中…':'分享纪念卡';}
+}
+async function saveMemCard(){
+  setMemLoading(true);
+  try{
+    const canvas=await captureEl($('mem-card'));
+    const name=(S.cats[CUR]&&S.cats[CUR].name?S.cats[CUR].name:'猫咪')+'-猫格纪念卡.png';
+    await new Promise(res=>canvas.toBlob(b=>{
+      const url=URL.createObjectURL(b);
+      const a=document.createElement('a'); a.href=url; a.download=name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),2000);
+      res();
+    },'image/png'));
+  }catch(e){ alert('保存失败：'+(e&&e.message||e)); }
+  finally{ setMemLoading(false); }
+}
+async function shareMemCard(){
+  setMemLoading(true);
+  try{
+    const canvas=await captureEl($('mem-card'));
+    const blob=await new Promise(res=>canvas.toBlob(res,'image/png'));
+    const file=new File([blob],'猫格纪念卡.png',{type:'image/png'});
+    const data={ title:'我的猫格纪念卡', text:'快来看看我家主子的猫格类型！🐱', files:[file] };
+    if(navigator.canShare && navigator.canShare(data)){ await navigator.share(data); }
+    else if(navigator.share){ await navigator.share({title:data.title,text:data.text}); }
+    else {
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a'); a.href=url; a.download='猫格纪念卡.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),2000);
+      alert('已为你保存图片，可到相册里分享到微信 / 小红书 / 抖音～');
+    }
+  }catch(e){
+    if(e&&e.name==='AbortError') return;
+    alert('分享失败：'+(e&&e.message||e));
+  }
+  finally{ setMemLoading(false); }
 }
 function setBtnLoading(on){
   const a=$('btn-save-img'), b=$('btn-share');
