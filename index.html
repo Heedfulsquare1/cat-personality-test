@@ -314,6 +314,7 @@ canvas{width:100%;height:340px;max-width:380px;display:block;margin:0 auto;touch
     <button class="btn" id="btn-save-img" onclick="saveImage()" data-page-node-id="eqnE5rmsOY1uHPM1uNOilH">保存图片</button>
     <button class="btn ghost" id="btn-share" onclick="shareImage()" data-page-node-id="xShareBtn">分享到微信 / 小红书 / 抖音</button>
     <button class="btn ghost" onclick="restart()" data-page-node-id="tEI383ZbBxlsr8tQw0DI69">再测一次</button>
+    <button class="btn ghost hide" id="btn-next-cat" onclick="testNextCat()">＋ 测试下一只猫</button>
   </div>
   <div class="foot" data-page-node-id="cwkFZWb0y3mCJdGBhwheC6">
     本结果基于主人主观观察，不构成医疗或行为诊断。若行为突然改变，请先就医。<br data-page-node-id="eLwM2cRDnfWfZKvVErPkG0">
@@ -780,7 +781,12 @@ function toQuiz(){
   S.qs=S.cats.map(()=>Q.filter(q=>!q.cond||S.env[q.cond]));
   if(!S.ans||!S.ans.length) S.ans=S.cats.map(q=>new Array(q.length).fill(null));
   else S.ans=S.ans.map((a,i)=>(a&&a.length===S.qs[i].length)?a:new Array(S.qs[i].length).fill(null));
-  S.done=[]; startCat(0);
+  S.done=S.cats.map((_,i)=>!!S.done[i]);
+  // 若某只猫答案已空（如改了品种导致题目数变化），把它的完成标记也清掉
+  S.ans.forEach((a,i)=>{ if(a && a.every(x=>x==null)) S.done[i]=false; });
+  // 从第一只还没测完的猫开始，已测完的猫直接跳过
+  let startIdx=0; while(startIdx<S.cats.length-1 && S.done[startIdx]) startIdx++;
+  startCat(startIdx);
 }
 function startCat(i){
   S.ci=i; S.cur=0; save();
@@ -907,6 +913,8 @@ function showExpired(){
 }
 function buildResult(){
   CUR=CUR<S.cats.length?CUR:0;
+  // 还能加猫时才显示「测试下一只猫」
+  const bn=$('btn-next-cat'); if(bn) bn.classList.toggle('hide',(S.maxCats||2)<=S.cats.length);
   const doneIdx=S.cats.map((c,i)=>i).filter(i=>S.done[i]);
   const multi=doneIdx.length>1;
   $('cmp-card').classList.toggle('hide',!multi);
@@ -991,6 +999,13 @@ function buildResult(){
   }
 }
 function restart(){ if(confirm('确定要清空当前数据、重新测试吗？')){localStorage.removeItem(lsKey());location.reload();} }
+function testNextCat(){
+  if((S.maxCats||2)<=S.cats.length){alert('本兑换码最多可测 '+(S.maxCats||2)+' 只猫啦~');return;}
+  addCat();                              // 加一只空猫并刷新信息页
+  S.done=S.cats.map((_,i)=>!!S.done[i]); // 保留已测完的猫
+  go('info');                            // 回信息页填写新猫，再点「开始答题」即可
+  window.scrollTo(0,0);
+}
 
 /* ---------- 一键保存图片 / 分享 ---------- */
 const H2C_CDNS=[
