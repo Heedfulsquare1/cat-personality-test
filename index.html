@@ -306,7 +306,21 @@ canvas{width:100%;height:340px;max-width:380px;display:block;margin:0 auto;touch
     <div class="legend" data-page-node-id="EbDCjtzUqt5P6ZRwREREcv"><span data-page-node-id="C5ngOdCQGCUNtNDGsB73zi"><i class="c" data-page-node-id="OPJa64CorwXUaCqQCiNFAL"></i><span id="lg-a" data-page-node-id="DF6F0fKJITVpCDmiOvegis"></span></span><span data-page-node-id="FC5x99KPzP5m1Dz2Q7sSQX"><i style="border-color:#e2a05f" data-page-node-id="eJ2BVVq7q5WXMCGBhQswSA"></i><span id="lg-b" data-page-node-id="0N7JGc2dnBvb92tvLFG8LB"></span></span></div>
     <div class="dtxt" id="cmp-text" style="margin-top:12px" data-page-node-id="ecNBDSnX869HtTBZEEj7KO"></div>
   </div>
-  <div class="card" id="meme-wrap" style="padding:14px 16px">
+  <div class="card" data-page-node-id="zcvVHoR41MTeenebO11Nht">
+    <h2 data-page-node-id="Fitjri2byPIWXRwdev07HS">给你的 3 条行动建议</h2>
+    <div class="tips" data-page-node-id="CcnxjH4N49k4vrQYpVDtgD"><ol id="r-tips" data-page-node-id="GdtOjilYuy88NI5oIJE6BN"></ol></div>
+    <button class="btn" id="btn-save-img" onclick="saveImage()" data-page-node-id="eqnE5rmsOY1uHPM1uNOilH">保存图片</button>
+    <button class="btn ghost" id="btn-share" onclick="shareImage()" data-page-node-id="xShareBtn">分享到微信 / 小红书 / 抖音</button>
+    <button class="btn ghost" onclick="restart()" data-page-node-id="tEI383ZbBxlsr8tQw0DI69">再测一次</button>
+  </div>
+  <div class="foot" data-page-node-id="cwkFZWb0y3mCJdGBhwheC6">
+    本结果基于主人主观观察，不构成医疗或行为诊断。若行为突然改变，请先就医。<br data-page-node-id="eLwM2cRDnfWfZKvVErPkG0">
+    题目由本团队独立编写与本地化改编；解读部分参考 AAFP/ISFM《Feline Environmental Needs Guidelines》(2013) 与 Heath《Understanding Feline Emotions》(2018) 的学术框架，结果仅供参考。
+  </div>
+</div>
+
+  <!-- 猫格纪念卡 彩蛋：独立于报告之外，不随「保存图片」一起导出 -->
+  <div class="card hide" id="meme-wrap" style="padding:14px 16px">
     <h2 style="text-align:center;margin:2px 0 10px">你的专属猫格纪念卡</h2>
     <div id="mem-card" style="position:relative;background:#fff7e8;border:4px solid #d9b98a;border-radius:16px;padding:18px 16px 0;max-width:340px;margin:0 auto;overflow:hidden;">
       <div style="position:absolute;top:10px;left:12px;color:#f2c14e;font-size:18px;">★</div>
@@ -323,18 +337,6 @@ canvas{width:100%;height:340px;max-width:380px;display:block;margin:0 auto;touch
       <button class="btn ghost" id="btn-share-mem" onclick="shareMemCard()" style="flex:1">分享纪念卡</button>
     </div>
   </div>
-  <div class="card" data-page-node-id="zcvVHoR41MTeenebO11Nht">
-    <h2 data-page-node-id="Fitjri2byPIWXRwdev07HS">给你的 3 条行动建议</h2>
-    <div class="tips" data-page-node-id="CcnxjH4N49k4vrQYpVDtgD"><ol id="r-tips" data-page-node-id="GdtOjilYuy88NI5oIJE6BN"></ol></div>
-    <button class="btn" id="btn-save-img" onclick="saveImage()" data-page-node-id="eqnE5rmsOY1uHPM1uNOilH">保存图片</button>
-    <button class="btn ghost" id="btn-share" onclick="shareImage()" data-page-node-id="xShareBtn">分享到微信 / 小红书 / 抖音</button>
-    <button class="btn ghost" onclick="restart()" data-page-node-id="tEI383ZbBxlsr8tQw0DI69">再测一次</button>
-  </div>
-  <div class="foot" data-page-node-id="cwkFZWb0y3mCJdGBhwheC6">
-    本结果基于主人主观观察，不构成医疗或行为诊断。若行为突然改变，请先就医。<br data-page-node-id="eLwM2cRDnfWfZKvVErPkG0">
-    题目由本团队独立编写与本地化改编；解读部分参考 AAFP/ISFM《Feline Environmental Needs Guidelines》(2013) 与 Heath《Understanding Feline Emotions》(2018) 的学术框架，结果仅供参考。
-  </div>
-</div>
 
 </div>
 
@@ -596,7 +598,7 @@ const $=id=>document.getElementById(id);
 const lsKey=()=>'catp_'+S.code;
 function save(){try{localStorage.setItem(lsKey(),JSON.stringify({v:APP_VER,S,exp:EXP}))}catch(e){}}
 let EXP=null;
-function go(p){['consent','info','quiz','mid','result'].forEach(k=>$('p-'+k).classList.toggle('hide',k!==p));window.scrollTo(0,0);}
+function go(p){['consent','info','quiz','mid','result'].forEach(k=>$('p-'+k).classList.toggle('hide',k!==p));$('meme-wrap').classList.toggle('hide',p!=='result');window.scrollTo(0,0);}
 
 /* 启动时清理掉旧版本或异常数据，保证「点开就是从零开始」 */
 (function purgeOldData(){
