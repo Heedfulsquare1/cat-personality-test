@@ -230,7 +230,7 @@ canvas{width:100%;height:340px;max-width:380px;display:block;margin:0 auto;touch
   <label class="row" data-page-node-id="HTTanskNOncN5XIjvkV9H9"><input type="checkbox" id="ck" style="margin-top:5px" data-page-node-id="yJsZypvtEQ9TE0OtFgrm1I">
     <span data-page-node-id="gIU0kAzJMhw8oQbBOfEzkQ">我已认真阅读并同意以上全部条款，理解本测试不构成医疗或行为诊断建议。</span></label>
   <div class="fld" style="margin-top:10px" data-page-node-id="sXdAzk8zsNLQ1FSMusKRik"><label data-page-node-id="DmOyTOrVgj78cThizxd96I">兑换码（一个兑换码 = 一个家庭，最多 2 只猫）</label>
-    <input type="text" id="code" placeholder="请输入兑换码（体验码：CAT2024）" data-page-node-id="xS4cTK0GX9bSIoxPL046Cd"></div>
+    <input type="text" id="code" placeholder="请输入兑换码" data-page-node-id="xS4cTK0GX9bSIoxPL046Cd"></div>
   <button class="btn" id="btn-consent" disabled onclick="toInfo()" data-page-node-id="c4Y3JTfXXHlBxDPSICymMs">同意并继续</button>
 </div>
 
@@ -664,7 +664,7 @@ async function toInfo(){
 
   // 未接入后端时，仍用演示码兜底
   if(!CLOUD_URL){
-    if(!['CAT2024','DEMO','CAT2025'].includes(c)){alert('兑换码无效，请检查后重试');return;}
+    if(!['CAT2024','DEMO','CAT2025','MOONDEMO'].includes(c)){alert('兑换码无效，请检查后重试');return;}
     enterInfo(c,2); return;
   }
 

@@ -40,6 +40,14 @@ export async function onRequestPost({ request, env }) {
       .first();
     if (!row) return json({ valid: false, message: '兑换码无效' }, 404);
 
+    // 1.5 永久码：不限制次数 / 设备，直接放行（不占用、不锁定）
+    if (row.permanent === 1) {
+      return json(
+        { valid: true, maxCats: row.maxCats || 2, permanent: true, message: '兑换成功' },
+        200
+      );
+    }
+
     // 2. 已被使用
     if (row.used === 1) {
       if (row.usedBy === deviceId) {

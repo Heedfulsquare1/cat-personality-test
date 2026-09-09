@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS codes (
   usedBy TEXT,
   usedAt TEXT,
   maxCats INTEGER DEFAULT 2,
+  permanent INTEGER DEFAULT 0,
   createdAt TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
