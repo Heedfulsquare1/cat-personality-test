@@ -217,6 +217,7 @@ canvas{width:100%;height:340px;max-width:380px;display:block;margin:0 auto;touch
   <div class="badge" data-page-node-id="FNcP7EODiHhSuPioYD8l64"><img src="assets/elements/像素元素-小星星.png" alt="" data-page-node-id="M7npHXJlMAPTtn1Ncr1FAD">6 大维度 · 50+ 道题 · 约 8 分钟</div>
   <h1 style="font-size:20px" data-page-node-id="6tFbBQ2DoH2hjCyIAvHyfp">🐱 欢迎来到小月说 - 猫咪行为性格测试！ 🐱</h1>
   <div class="sub" data-page-node-id="lM3upCs6wqlQWIY3GP14Ir">猫咪行为与性格综合评估</div>
+  <div class="notice" style="margin:10px 0 14px">💡 建议用手机自带浏览器（Safari / Chrome）打开本链接。若用微信、QQ 等 App 内置浏览器打开，可能无法保存或分享测试结果图片。</div>
   <div class="box" data-page-node-id="5H7QFvjavSfFgnE1nbmvcM">
     <b data-page-node-id="x9KFvyPqpyMxwnOItenAXb">1. 这不是诊断</b><br data-page-node-id="XZ2S0KzsuD5vKdmNDlIKZZ">
     本测试基于主人的日常主观观察，用于<b data-page-node-id="KLY54L7hKXn77R1bQym2z5">科普猫咪行为和性格画像</b>，<b data-page-node-id="uCr8SgaBcCxQxhWNvcfGTx">不构成医疗诊断，也不构成动物行为医学诊断</b>，不能替代执业兽医或认证动物行为顾问的评估。<br data-page-node-id="23gCTHhjbznXJjxhsfFoUd"><br data-page-node-id="kyx0lrr5D6pn1L2gvkw2bt">
@@ -281,6 +282,7 @@ canvas{width:100%;height:340px;max-width:380px;display:block;margin:0 auto;touch
 
 <!-- ⑤ 报告 -->
 <div id="p-result" class="hide" data-page-node-id="6JGQHv0VOQQDJ224CXCwYs">
+  <div class="notice" id="gen-hint" style="margin-bottom:14px">⏳ 报告正在生成，图片与图表需要几秒加载。请稍等片刻，再向下滑动即可看到完整报告。</div>
   <div class="card" style="padding:18px 16px" data-page-node-id="3g1GqKva8AZBedgtkEK3Sg">
     <div class="notice" id="expire-note" data-page-node-id="cVaVrAHbfb9Pf3is0LTpoq"></div>
     <div class="tabs" id="tabs" data-page-node-id="5DynhAzF1QbvvUZGbk72jd"></div>
@@ -973,6 +975,10 @@ function buildResult(){
   const d=new Date(EXP);
   $('expire-note').innerHTML='提醒：<b>这份报告将在 '+d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())+' '+p2(d.getHours())+':'+p2(d.getMinutes())+' 失效</b>（生成后 24 小时）。<br>请点击报告底部的「保存图片」或「分享」，把它存下来或发给朋友哦～';
 
+  // 报告顶部「生成中」提示：每次生成先显示，6 秒后自动隐藏（也避免被截进保存图）
+  const gh=$('gen-hint');
+  if(gh){ gh.classList.remove('hide'); setTimeout(()=>gh.classList.add('hide'),6000); }
+
   const other = (multi && S.done[1-CUR]) ? score(1-CUR) : null;
   drawRadar($('radar'),{s:s,avg:a,cmp:other,hoverEl:$('tip')});
   if(multi && other){
@@ -1020,7 +1026,12 @@ async function captureEl(el){
     windowWidth: el.scrollWidth, windowHeight: el.scrollHeight
   });
 }
-async function captureReport(){ return captureEl(document.getElementById('p-result')); }
+async function captureReport(){
+  const gh=$('gen-hint'); const wasHidden=gh&&gh.classList.contains('hide');
+  if(gh) gh.classList.add('hide');
+  try{ return await captureEl(document.getElementById('p-result')); }
+  finally{ if(gh && !wasHidden) gh.classList.remove('hide'); }
+}
 
 function setMemLoading(on){
   const a=$('btn-save-mem'), b=$('btn-share-mem');
