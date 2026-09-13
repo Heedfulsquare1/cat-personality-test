@@ -62,6 +62,11 @@ h3{letter-spacing:.5px}
 .badge{display:inline-flex;align-items:center;gap:6px;background:var(--cream);border:2px solid var(--ink);
  box-shadow:3px 3px 0 rgba(43,33,24,.85);color:var(--orange-d);font-size:12px;padding:4px 10px;margin-bottom:14px}
 .badge img{width:16px;height:16px}
+.counter-pill{display:block;text-align:center;margin:4px 0 14px;padding:9px 12px;background:var(--cream);
+ border:2px solid var(--ink);box-shadow:3px 3px 0 rgba(43,33,24,.85);color:var(--ink);font-size:13.5px;line-height:1.6}
+.counter-pill b{color:var(--orange-d);font-size:17px;padding:0 2px;font-weight:800}
+.counter-pill.pop{animation:countPop .4s steps(1) both}
+@keyframes countPop{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
 .btn{display:block;width:100%;padding:14px;border:3px solid var(--ink);font-size:15.5px;font-weight:700;letter-spacing:1px;
  background:var(--orange);color:#fff;cursor:pointer;margin-top:14px;box-shadow:0 5px 0 #a8541a;transition:none;font-family:inherit}
 .btn:active{transform:translateY(5px);box-shadow:0 0 0 #a8541a}
@@ -217,6 +222,7 @@ canvas{width:100%;height:340px;max-width:380px;display:block;margin:0 auto;touch
   <div class="badge" data-page-node-id="FNcP7EODiHhSuPioYD8l64"><img src="assets/elements/像素元素-小星星.png" alt="" data-page-node-id="M7npHXJlMAPTtn1Ncr1FAD">6 大维度 · 50+ 道题 · 约 8 分钟</div>
   <h1 style="font-size:20px" data-page-node-id="6tFbBQ2DoH2hjCyIAvHyfp">🐱 欢迎来到小月说 - 猫咪行为性格测试！ 🐱</h1>
   <div class="sub" data-page-node-id="lM3upCs6wqlQWIY3GP14Ir">猫咪行为与性格综合评估</div>
+  <div class="counter-pill" id="home-counter">已经有 <b id="cat-count">295</b> 只小猫咪获得了它们的专属猫格报告，快来加入吧！</div>
   <div class="box" style="background:#fff7e8">
     本测试的维度设计参考了公开发表的猫行为与性格研究，包括 Mikkola 等（2021）关于猫行为与性格七维度的研究，以及国际通行的猫行为评估问卷在维度划分上的通行做法。题目由「小月说」结合上述研究重新编写，与任何一份既有问卷均不构成对应关系。
   </div>
@@ -606,6 +612,38 @@ function save(){try{localStorage.setItem(lsKey(),JSON.stringify({v:APP_VER,S,exp
 let EXP=null;
 function go(p){['consent','info','quiz','mid','result'].forEach(k=>$('p-'+k).classList.toggle('hide',k!==p));$('meme-wrap').classList.toggle('hide',p!=='result');window.scrollTo(0,0);}
 
+/* ---------- 完成人数计数器（首页展示 + 每完成一只猫 +1） ---------- */
+let countedCats=new Set(); // 防止同一只猫重复计数
+function setCount(n){
+  const el=$('cat-count'); if(!el) return;
+  const txt=Number(n).toLocaleString('zh-CN');
+  if(el.textContent!==txt){
+    el.textContent=txt;
+    const pill=$('home-counter');
+    if(pill){pill.classList.remove('pop');void pill.offsetWidth;pill.classList.add('pop');}
+  }
+}
+async function refreshCounter(){
+  if(!CLOUD_URL) return;
+  try{
+    const r=await fetch(CLOUD_URL+'/counter',{cache:'no-store'});
+    if(!r.ok) return;
+    const o=await r.json();
+    if(typeof o.count==='number') setCount(o.count);
+  }catch(e){}
+}
+async function bumpCounter(ci){
+  if(countedCats.has(ci)) return; // 这只猫已经计过数，跳过
+  countedCats.add(ci);
+  if(!CLOUD_URL) return;
+  try{
+    const r=await fetch(CLOUD_URL+'/counter',{method:'POST',cache:'no-store'});
+    if(!r.ok){countedCats.delete(ci);return;}
+    const o=await r.json();
+    if(typeof o.count==='number') setCount(o.count);
+  }catch(e){countedCats.delete(ci);} // 失败则允许下次重试
+}
+
 /* 启动时清理掉旧版本或异常数据，保证「点开就是从零开始」 */
 (function purgeOldData(){
   try{
@@ -684,6 +722,7 @@ function enterInfo(c,maxCats){
   buildInfo(); go('info');
 }
 async function toInfo(){
+  countedCats.clear(); // 新兑换码 = 新会话，允许重新计数
   const c=$('code').value.trim().toUpperCase();
   if(!c){alert('请输入兑换码');return;}
 
@@ -821,7 +860,7 @@ function next(){
   const qs=S.qs[S.ci];
   if(S.ans[S.ci][S.cur]==null){alert('请先选择一个选项');return;}
   if(S.cur<qs.length-1){S.cur++;render();save();}
-  else{ S.done[S.ci]=true; save();
+  else{ S.done[S.ci]=true; save(); bumpCounter(S.ci);
     if(S.ci<S.cats.length-1){
       $('mid-name').textContent=S.cats[S.ci].name;
       $('mid-sub').textContent='已经完成 '+qs.length+' 道题。接下来可以继续测 '+S.cats[S.ci+1].name+'，也可以先看看 '+S.cats[S.ci].name+' 的报告。';
@@ -1217,6 +1256,7 @@ function drawRadar(cv,o){
 
 /* ---------- 启动 ---------- */
 spawnSky();
+refreshCounter(); // 拉取最新完成人数并显示在首页
 window.addEventListener('resize',()=>{clearTimeout(window.__rz);window.__rz=setTimeout(spawnSky,300)});
 window.addEventListener('error', e=>{
   // 全局兜底：把未捕获错误浮到一个角落，比打开 dev console 友好
